@@ -37,6 +37,31 @@ app.get('/api/temp', async (req, res) => {
   res.json(data);
 });
 
+app.get('/api/recipes', async (req, res) => {
+  // fetches all recipes from the database, should limit later on
+
+  if (!supabase) {
+    return res.status(500).json({
+      error:
+        'Supabase Error, recipes endpoint',
+    });
+  }
+
+  const { data, error } = await supabase
+    .from('recipes')
+    .select('recipe_id, image, name, description, duration, location, type, ingredients, family_history_id, category, user_id');
+
+  if (error) {
+    return res.status(500).json({ error: error.message });
+  }
+
+  if (!data || data.length === 0) {
+    return res.status(404).json({ error: 'No recipes found' });
+  }
+
+  res.status(200).json(data);
+});
+
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
 });
