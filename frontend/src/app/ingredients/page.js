@@ -32,30 +32,19 @@ export default function IngredientsPage() {
     );
 
     return (
-        <div style={{ padding: "20px "}}>
-            <h1>Ingredient Glossary</h1>
+        <div className="min-h-screen bg-base-200 p-8">
+            <h1 className="text-3xl font-bold text-base-content mb-6">
+                Ingredient Glossary
+            </h1>
 
             <input
                 type="text"
                 placeholder="Search ingredients..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                style={{
-                    marginTop: "10px",
-                    padding: "8px",
-                    width: "100%",
-                    maxWidth: "300px"
-                }}
+                className="input input-bordered w-full max-w-sm mb-8"
             />
-
-            <div
-                style={{
-                    display: "grid",
-                    gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
-                    gap: "16px",
-                    marginTop: "20px"
-                }}
-            >
+            <div className="grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-6">
                 {filteredIngredients.map((item) => (
                     <IngredientCard key={item.id} ingredient={item} />
                 ))}

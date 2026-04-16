@@ -5,32 +5,41 @@ export default function IngredientCard({ ingredient }) {
     const [expanded, setExpanded] = useState(false);
 
     return (
-        <div
-            onClick={() => setExpanded(!expanded)}
-            style={{
-                border: "1px solid #ccc",
-                padding: "12px",
-                borderRadius: "10px",
-                cursor: "pointer"
-            }}
-        >
-            <img
-                src={ingredient.image}
-                alt={ingredient.name}
-                width="80"
-            />
+        <div className="card bg-base-100 shadow-md rounded-box border border-base-300">
+            <figure className="pt-6">
+                <img
+                    src={ingredient.image}
+                    alt={ingredient.name}
+                    className="w-24 h-24 object-cover rounded-full"
+                />
+            </figure>
 
-            <h3>{ingredient.name}</h3>
+            <div className="card-body items-center text-center p-4">
+                <div className="flex items-center gap-2">
+                    <h3 className="card-title text-base-content">{ingredient.name}</h3>
+                    <button
+                        onClick={() => setExpanded(!expanded)}
+                        className="btn btn-ghost btn-xs"
+                    >
+                        {expanded ? "▲" : "▼"}
+                    </button>
+                </div>
 
-            <span>{expanded ? "▲" : "▼"}</span>
-
-            {expanded && (
-                <div style={{ marginTop: "10px" }}>
+                {/* Sliding subtitues section */}
+                <div
+                    className={`overflow-hidden transition-all duration-300 w-full ${
+                        expanded ? "max-h-40 opacity-100 mt-2" : "max-h-0 opacity-0"
+                    }`}
+                >
+                    <div className="divider my-1"></div>
+                    <p className="text-xs text-base-content/60 font-semibold uppercase mb-1">Substitutes</p>
                     {ingredient.substitutes.split(",").map((sub, index) => (
-                        <p key={index}>{sub}</p>
+                        <p key={index} className="text-sm text-base-content py-0.5">
+                            {sub.trim()}
+                        </p>
                     ))}
                 </div>
-            )}
+            </div>
         </div>
     );
 }
