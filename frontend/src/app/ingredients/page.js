@@ -7,13 +7,19 @@ const ingredients = [
         id: 1,
         name: "Tomato",
         image: "/tomato.png",
-        substitutes: "Cherry Tomato (~$2), Canned Tomato (~$1)"
+        substitutes: [
+            { name: "Turmeric", price: "$2.00", image: "https://placehold.co/48x48?text=T" },
+            { name: "Paprika", price: "$1.50", image: "https://placehold.co/48x48?text-P" }
+        ]
     },
     {
         id: 2,
         name: "Milk",
         image: "/milk.png",
-        substitutes: "Almond Milk (~$3), Oat Milk (~$4)"
+        substitutes: [
+            { name: "Almond Milk", price: "$3.00", image: "https://placehold.co/48x48?text=A" },
+            { name: "Oat Milk", price: "$4.00", image: "https://placehold.co/48x48?text=O" }
+        ]
     },
     {
         id: 3,
