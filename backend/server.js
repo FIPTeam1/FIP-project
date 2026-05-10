@@ -1,67 +1,45 @@
 require('dotenv').config();
 const express = require('express');
-const { createClient } = require('@supabase/supabase-js');
+const cors = require('cors');
+
+const ingredientsRoutes = require('./routes/ingredients');
+const recipesRoutes = require('./routes/recipes');
+const reviewsRoutes = require('./routes/reviews');
+const savedRoutes = require('./routes/saved');
+const authRoutes = require('./routes/auth');
+const followRoutes = require('./routes/follow');
+const usersRoutes = require('./routes/users');
+const familyHistoryRoutes = require('./routes/familyHistory');
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
-const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseKey = process.env.SUPABASE_SECRET_KEY;
-const supabase =
-  supabaseUrl && supabaseKey
-    ? createClient(supabaseUrl, supabaseKey)
-    : null;
+app.use(cors());
+app.use(express.json({ limit: '5mb' }));
 
-app.get('/', (req, res) => {
-  res.send('Hello World!');
+app.get('/', (_req, res) => {
+  res.json({ status: 'ok', service: 'FIP API' });
 });
 
-// example
-app.get('/api/temp', async (req, res) => {
-  if (!supabase) {
-    return res.status(500).json({
-      error:
-        'Supabase is not configured. Set SUPABASE_URL and SUPABASE_SECRET_KEY in .env',
-    });
-  }
+app.use(ingredientsRoutes);
+app.use(recipesRoutes);
+app.use(reviewsRoutes);
+app.use(savedRoutes);
+app.use(authRoutes);
+app.use(followRoutes);
+app.use(usersRoutes);
+app.use(familyHistoryRoutes);
 
-  const { data, error } = await supabase
-    .from('test_table')
-    .select('id, created_at, dummy')
-    .limit(3);
-
-  if (error) {
-    return res.status(500).json({ error: error.message });
-  }
-
-  res.json(data);
+app.use((_req, res) => {
+  res.status(404).json({ error: 'Not found' });
 });
 
-app.get('/api/recipes', async (req, res) => {
-  // fetches all recipes from the database, should limit later on
-
-  if (!supabase) {
-    return res.status(500).json({
-      error:
-        'Supabase Error, recipes endpoint',
-    });
-  }
-
-  const { data, error } = await supabase
-    .from('recipes')
-    .select('recipe_id, image, name, description, duration, location, type, ingredients, family_history_id, category, user_id');
-
-  if (error) {
-    return res.status(500).json({ error: error.message });
-  }
-
-  if (!data || data.length === 0) {
-    return res.status(404).json({ error: 'No recipes found' });
-  }
-
-  res.status(200).json(data);
+// eslint-disable-next-line no-unused-vars
+app.use((err, _req, res, _next) => {
+  console.error('[server] unhandled error', err);
+  res.status(500).json({ error: 'Internal server error' });
 });
 
 app.listen(PORT, () => {
-  console.log(`Example app listening on port ${PORT}`);
+  console.log(`FIP API listening on http://localhost:${PORT}`);
 });
