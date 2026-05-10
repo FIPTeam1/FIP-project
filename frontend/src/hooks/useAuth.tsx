@@ -48,7 +48,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = useCallback(async (email: string, password: string) => {
     const res = await authApi.login({ email, password });
-    const { token, user: userData } = res.data;
+    const { token, user: userData } = res.data.data;
     localStorage.setItem('fip_token', token);
     localStorage.setItem('fip_user', JSON.stringify(userData));
     setUser(userData);

@@ -57,8 +57,8 @@ export default function RecipeDetailPage() {
       setLoading(true);
       try {
         const res = await recipesApi.get(id);
-        setRecipe(res.data);
-        setIsSaved(res.data.is_saved ?? false);
+        setRecipe(res.data.data);
+        setIsSaved(res.data.data.is_saved ?? false);
       } catch (err: unknown) {
         const axiosErr = err as { response?: { status?: number } };
         if (axiosErr?.response?.status === 404) {

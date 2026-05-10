@@ -32,7 +32,7 @@ export default function ProfileTabs({ username, isOwnProfile }: ProfileTabsProps
     setUserRecipesLoading(true);
     usersApi
       .getUserRecipes(username)
-      .then((res) => setUserRecipes(res.data))
+      .then((res) => setUserRecipes(res.data.data))
       .catch(() => setUserRecipes([]))
       .finally(() => setUserRecipesLoading(false));
 
@@ -48,7 +48,7 @@ export default function ProfileTabs({ username, isOwnProfile }: ProfileTabsProps
     setSavedRecipesLoading(true);
     usersApi
       .getSavedRecipes()
-      .then((res) => setSavedRecipes(res.data))
+      .then((res) => setSavedRecipes(res.data.data))
       .catch(() => setSavedRecipes([]))
       .finally(() => {
         setSavedRecipesLoading(false);

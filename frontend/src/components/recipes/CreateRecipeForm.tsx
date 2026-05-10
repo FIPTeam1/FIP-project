@@ -127,7 +127,7 @@ export default function CreateRecipeForm() {
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const res = await recipesApi.create(payload as any);
-      router.push(`/recipes/${res.data.id}`);
+      router.push(`/recipes/${res.data.data.id}`);
     } catch (err: unknown) {
       const message =
         err && typeof err === 'object' && 'response' in err

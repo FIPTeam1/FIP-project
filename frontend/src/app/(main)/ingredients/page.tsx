@@ -29,7 +29,7 @@ export default function IngredientsPage() {
     setError(null);
     try {
       const res = await ingredientsApi.list(query || undefined);
-      setIngredients(res.data);
+      setIngredients(res.data.data);
     } catch {
       setError('Failed to load ingredients. Please try again.');
     } finally {

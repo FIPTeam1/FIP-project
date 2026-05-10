@@ -31,7 +31,15 @@ router.get('/', async (req: Request, res: Response) => {
     return;
   }
 
-  res.json({ data, error: null });
+  // Rename ingredient_substitutes → substitutes to match frontend types
+  const normalized = (data ?? []).map((item) => ({
+    id: item.id,
+    name: item.name,
+    image_url: item.image_url,
+    substitutes: (item as Record<string, unknown>)['ingredient_substitutes'] ?? [],
+  }));
+
+  res.json({ data: normalized, error: null });
 });
 
 export default router;

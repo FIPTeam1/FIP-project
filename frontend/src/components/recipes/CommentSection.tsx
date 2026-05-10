@@ -35,7 +35,7 @@ export default function CommentSection({ recipeId }: CommentSectionProps) {
       setLoading(true);
       try {
         const res = await recipesApi.getComments(recipeId);
-        setComments(res.data);
+        setComments(res.data.data);
       } catch {
         // silently fail
       } finally {
@@ -51,7 +51,7 @@ export default function CommentSection({ recipeId }: CommentSectionProps) {
     setError(null);
     try {
       const res = await recipesApi.addComment(recipeId, content.trim());
-      setComments((prev) => [res.data, ...prev]);
+      setComments((prev) => [res.data.data, ...prev]);
       setContent('');
     } catch {
       setError('Failed to post comment. Please try again.');
