@@ -1,26 +1,44 @@
 @import "tailwindcss";
+@plugin "daisyui" {
+  themes: fip --default;
+}
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@plugin "daisyui/theme" {
+  name: "fip";
+  default: true;
+  --color-primary: oklch(from #FCAF3B l c h);
+  --color-primary-content: #ffffff;
+  --color-secondary: oklch(from #5555FF l c h);
+  --color-secondary-content: #ffffff;
+  --color-accent: oklch(from #FCAF3B l c h);
+  --color-neutral: #374151;
+  --color-base-100: #FBFBFB;
+  --color-base-200: #F0F0F0;
+  --color-base-300: #909090;
+  --color-base-content: #111827;
+  --color-error: oklch(from #F04C4C l c h);
+  --color-success: oklch(from #88DA62 l c h);
+  --rounded-btn: 0.5rem;
+  --rounded-box: 0.75rem;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+html,
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  min-height: 100vh;
+  background-color: #FBFBFB;
+  color: #111827;
+  font-family: var(--font-sans);
 }
+
+/* Typography scale matching Figma */
+.text-title   { font-size: 32px; font-weight: 700; }
+.text-h1      { font-size: 22px; font-weight: 600; }
+.text-h2      { font-size: 20px; font-weight: 500; }
+.text-h3      { font-size: 16px; font-weight: 500; }
+.text-special { font-size: 16px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; }
+.text-body    { font-size: 14px; font-weight: 400; }
+.text-btn     { font-size: 14px; font-weight: 600; }
