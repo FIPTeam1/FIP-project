@@ -1,5 +1,52 @@
-import axios from 'axios';
+import axios, { type AxiosError } from 'axios';
 import type { Recipe, User, Review, Ingredient, SavedRecipe, FamilyHistory } from './types';
+
+// ── Friendly error messages ───────────────────────────────────────────────────
+/**
+ * Converts an Axios error from the backend into a human-readable string.
+ * Pass a `context` to get domain-specific copy ("login" | "register").
+ */
+export function getFriendlyError(
+  err: unknown,
+  context?: 'login' | 'register'
+): string {
+  const axiosErr = err as AxiosError<{ error?: string }>;
+  const status = axiosErr?.response?.status;
+  const backendMsg = axiosErr?.response?.data?.error ?? '';
+
+  // No response at all — network or CORS problem
+  if (!status) {
+    return "Can't reach the server. Check your internet connection and try again.";
+  }
+
+  if (context === 'login') {
+    if (status === 400 || status === 401) {
+      return 'Incorrect email or password. Please try again.';
+    }
+  }
+
+  if (context === 'register') {
+    if (status === 400) {
+      const lower = backendMsg.toLowerCase();
+      if (lower.includes('already') || lower.includes('exist') || lower.includes('registered')) {
+        return 'An account with that email already exists. Try signing in instead.';
+      }
+      if (lower.includes('password') && lower.includes('short')) {
+        return 'Password must be at least 6 characters.';
+      }
+      return 'Please check your details and try again.';
+    }
+  }
+
+  // Generic fallbacks by status code
+  if (status === 429) return 'Too many attempts. Please wait a moment and try again.';
+  if (status >= 500) return 'Something went wrong on our end. Please try again in a moment.';
+
+  // Last resort: use the backend message if it's short enough to show directly
+  if (backendMsg && backendMsg.length < 120) return backendMsg;
+
+  return 'Something went wrong. Please try again.';
+}
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
 

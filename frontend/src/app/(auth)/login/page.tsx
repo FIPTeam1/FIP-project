@@ -4,6 +4,7 @@ import { useState, useEffect, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '@/hooks/useAuth';
+import { getFriendlyError } from '@/lib/api';
 
 export default function LoginPage() {
   const { login, user, loading } = useAuth();
@@ -28,9 +29,7 @@ export default function LoginPage() {
       await login(email, password);
       router.replace('/recipes');
     } catch (err: unknown) {
-      const message =
-        err instanceof Error ? err.message : 'Invalid credentials. Please try again.';
-      setError(message);
+      setError(getFriendlyError(err, 'login'));
     } finally {
       setSubmitting(false);
     }
