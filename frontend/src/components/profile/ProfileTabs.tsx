@@ -2,22 +2,22 @@
 
 import { useState, useEffect } from 'react';
 import { usersApi } from '@/lib/api';
-import type { Recipe } from '@/lib/types';
+import type { Recipe, SavedRecipe } from '@/lib/types';
 import RecipeGrid from '@/components/recipes/RecipeGrid';
 
 type Tab = 'recipes' | 'saved';
 
 interface ProfileTabsProps {
-  username: string;
+  userId: string;
   isOwnProfile: boolean;
 }
 
 const TAB_STYLE_ACTIVE =
-  'pb-3 text-body font-bold text-gray-900 border-b-2 transition-colors';
+  'pb-3 text-[14px] font-bold text-gray-900 border-b-2 transition-colors';
 const TAB_STYLE_INACTIVE =
-  'pb-3 text-body font-normal text-gray-400 border-b-2 border-transparent hover:text-gray-600 transition-colors';
+  'pb-3 text-[14px] font-normal text-gray-400 border-b-2 border-transparent hover:text-gray-600 transition-colors';
 
-export default function ProfileTabs({ username, isOwnProfile }: ProfileTabsProps) {
+export default function ProfileTabs({ userId, isOwnProfile }: ProfileTabsProps) {
   const [activeTab, setActiveTab] = useState<Tab>('recipes');
 
   const [userRecipes, setUserRecipes] = useState<Recipe[]>([]);
@@ -27,19 +27,19 @@ export default function ProfileTabs({ username, isOwnProfile }: ProfileTabsProps
   const [savedRecipesLoading, setSavedRecipesLoading] = useState(false);
   const [savedFetched, setSavedFetched] = useState(false);
 
-  // Fetch user's own recipes on mount / username change
+  // Fetch user's own recipes on mount / userId change
   useEffect(() => {
     setUserRecipesLoading(true);
     usersApi
-      .getUserRecipes(username)
-      .then((res) => setUserRecipes(res.data.data))
+      .getUserRecipes(userId)
+      .then((res) => setUserRecipes(res.data))
       .catch(() => setUserRecipes([]))
       .finally(() => setUserRecipesLoading(false));
 
-    // Reset saved state when username changes
+    // Reset saved state when userId changes
     setSavedRecipes([]);
     setSavedFetched(false);
-  }, [username]);
+  }, [userId]);
 
   // Lazily fetch saved recipes when that tab is activated (only for own profile)
   useEffect(() => {
@@ -48,7 +48,13 @@ export default function ProfileTabs({ username, isOwnProfile }: ProfileTabsProps
     setSavedRecipesLoading(true);
     usersApi
       .getSavedRecipes()
-      .then((res) => setSavedRecipes(res.data.data))
+      .then((res) => {
+        // Extract the recipe object from each SavedRecipe row
+        const recipes = res.data
+          .map((sr: SavedRecipe) => sr.recipe)
+          .filter((r): r is Recipe => r != null);
+        setSavedRecipes(recipes);
+      })
       .catch(() => setSavedRecipes([]))
       .finally(() => {
         setSavedRecipesLoading(false);
@@ -129,8 +135,8 @@ function EmptyState({
   return (
     <div className="flex flex-col items-center justify-center py-20 gap-3 text-center">
       <span className="text-5xl">🥘</span>
-      <p className="text-h3 font-medium text-gray-600">{message}</p>
-      <p className="text-body text-gray-400 max-w-xs">{subMessage}</p>
+      <p className="text-[16px] font-medium text-gray-600">{message}</p>
+      <p className="text-[14px] text-gray-400 max-w-xs">{subMessage}</p>
     </div>
   );
 }

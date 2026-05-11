@@ -1,24 +1,23 @@
 'use client';
 
 import { useState } from 'react';
-import type { Profile } from '@/lib/types';
+import type { User } from '@/lib/types';
 
 interface ProfileHeaderProps {
-  profile: Profile;
+  profile: User;
   isOwnProfile: boolean;
 }
 
-function getInitials(profile: Profile): string {
+function getInitials(profile: User): string {
   const first = profile.first_name?.trim()[0] ?? '';
   const last = profile.last_name?.trim()[0] ?? '';
-  return (first + last).toUpperCase() || profile.username[0].toUpperCase();
+  return (first + last).toUpperCase() || '?';
 }
 
-function getDisplayName(profile: Profile): string {
+function getDisplayName(profile: User): string {
   const first = profile.first_name?.trim() ?? '';
   const last = profile.last_name?.trim() ?? '';
-  if (first || last) return `${first} ${last}`.trim();
-  return profile.username;
+  return [first, last].filter(Boolean).join(' ') || 'Unknown User';
 }
 
 export default function ProfileHeader({ profile, isOwnProfile }: ProfileHeaderProps) {
@@ -26,7 +25,7 @@ export default function ProfileHeader({ profile, isOwnProfile }: ProfileHeaderPr
 
   const initials = getInitials(profile);
   const displayName = getDisplayName(profile);
-  const showImg = !!profile.avatar_url && !imgError;
+  const showImg = !!profile.profile_picture && !imgError;
 
   return (
     <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5 mb-8">
@@ -35,7 +34,7 @@ export default function ProfileHeader({ profile, isOwnProfile }: ProfileHeaderPr
         {showImg ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
-            src={profile.avatar_url!}
+            src={profile.profile_picture!}
             alt={displayName}
             onError={() => setImgError(true)}
             className="w-16 h-16 rounded-full object-cover border-2 border-base-200"
@@ -52,29 +51,16 @@ export default function ProfileHeader({ profile, isOwnProfile }: ProfileHeaderPr
 
       {/* Info */}
       <div className="flex flex-col gap-1 flex-1 min-w-0">
-        <h1 className="text-h1 font-semibold text-gray-900 leading-tight">{displayName}</h1>
-        <p className="text-body text-gray-500">@{profile.username}</p>
+        <h1 className="text-[22px] font-semibold text-gray-900 leading-tight">{displayName}</h1>
 
-        {profile.bio && (
-          <p className="text-body text-gray-700 mt-1 max-w-xl">{profile.bio}</p>
+        {profile.description && (
+          <p className="text-[14px] text-gray-700 mt-1 max-w-xl">{profile.description}</p>
         )}
 
-        {profile.location && (
-          <p className="text-body text-gray-400 flex items-center gap-1 mt-0.5">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="w-4 h-4 flex-shrink-0"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth={2}
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M12 2C8.686 2 6 4.686 6 8c0 5.25 6 13 6 13s6-7.75 6-13c0-3.314-2.686-6-6-6z" />
-              <circle cx="12" cy="8" r="2" />
-            </svg>
-            {profile.location}
+        {profile.rating != null && (
+          <p className="text-[14px] text-gray-400 flex items-center gap-1 mt-0.5">
+            <span className="text-[#FCAF3B]">★</span>
+            <span className="font-medium">{profile.rating.toFixed(1)}</span>
           </p>
         )}
       </div>

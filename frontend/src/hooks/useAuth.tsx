@@ -8,7 +8,7 @@ import {
   useCallback,
   type ReactNode,
 } from 'react';
-import { authApi } from '@/lib/api';
+import { authApi, usersApi } from '@/lib/api';
 import type { AuthUser } from '@/lib/types';
 
 interface AuthContextValue {
@@ -18,9 +18,8 @@ interface AuthContextValue {
   register: (data: {
     email: string;
     password: string;
-    username: string;
     first_name: string;
-    last_name: string;
+    last_name?: string;
   }) => Promise<void>;
   logout: () => Promise<void>;
 }
@@ -48,19 +47,27 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = useCallback(async (email: string, password: string) => {
     const res = await authApi.login({ email, password });
-    const { token, user: userData } = res.data.data;
-    localStorage.setItem('fip_token', token);
-    localStorage.setItem('fip_user', JSON.stringify(userData));
-    setUser(userData);
+    const { access_token } = res.data;
+
+    localStorage.setItem('fip_token', access_token);
+
+    // Fetch full profile from /me
+    const meRes = await usersApi.me();
+    const authUser: AuthUser = {
+      id: meRes.data.auth.id,
+      email: meRes.data.auth.email,
+      profile: meRes.data.profile,
+    };
+    localStorage.setItem('fip_user', JSON.stringify(authUser));
+    setUser(authUser);
   }, []);
 
   const register = useCallback(
     async (data: {
       email: string;
       password: string;
-      username: string;
       first_name: string;
-      last_name: string;
+      last_name?: string;
     }) => {
       await authApi.register(data);
       await login(data.email, data.password);

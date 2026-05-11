@@ -3,20 +3,19 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
-import { recipesApi } from '@/lib/api';
+import { recipesApi, usersApi } from '@/lib/api';
 import { useAuth } from '@/hooks/useAuth';
-import type { Recipe } from '@/lib/types';
+import type { Recipe, User } from '@/lib/types';
 import RecipeDetail from '@/components/recipes/RecipeDetail';
 import FamilyHistory from '@/components/recipes/FamilyHistory';
-import CommentSection from '@/components/recipes/CommentSection';
+import ReviewSection from '@/components/recipes/ReviewSection';
 
 type Tab = 'recipe' | 'family';
 
-function getInitials(recipe: Recipe): string {
-  const first = recipe.creator?.first_name ?? '';
-  const last = recipe.creator?.last_name ?? '';
-  if (first || last) return `${first[0] ?? ''}${last[0] ?? ''}`.toUpperCase();
-  return (recipe.creator?.username ?? '?').slice(0, 2).toUpperCase();
+function getInitials(user: User | null): string {
+  const first = user?.first_name?.[0] ?? '';
+  const last = user?.last_name?.[0] ?? '';
+  return (first + last).toUpperCase() || '?';
 }
 
 function SkeletonLoader() {
@@ -46,6 +45,7 @@ export default function RecipeDetailPage() {
   const { user } = useAuth();
 
   const [recipe, setRecipe] = useState<Recipe | null>(null);
+  const [author, setAuthor] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
   const [activeTab, setActiveTab] = useState<Tab>('recipe');
@@ -57,8 +57,17 @@ export default function RecipeDetailPage() {
       setLoading(true);
       try {
         const res = await recipesApi.get(id);
-        setRecipe(res.data.data);
-        setIsSaved(res.data.data.is_saved ?? false);
+        setRecipe(res.data);
+
+        // Fetch author info
+        if (res.data.user_id) {
+          try {
+            const userRes = await usersApi.getUser(res.data.user_id);
+            setAuthor(userRes.data);
+          } catch {
+            // author info is optional
+          }
+        }
       } catch (err: unknown) {
         const axiosErr = err as { response?: { status?: number } };
         if (axiosErr?.response?.status === 404) {
@@ -76,10 +85,10 @@ export default function RecipeDetailPage() {
     setSavingInProgress(true);
     try {
       if (isSaved) {
-        await recipesApi.unsave(recipe.id);
+        await recipesApi.unsave(recipe.recipe_id);
         setIsSaved(false);
       } else {
-        await recipesApi.save(recipe.id);
+        await recipesApi.save(recipe.recipe_id);
         setIsSaved(true);
       }
     } catch {
@@ -95,10 +104,10 @@ export default function RecipeDetailPage() {
     return (
       <div className="px-[100px] py-16 flex flex-col items-center gap-4">
         <span className="text-6xl">🍽️</span>
-        <h1 className="text-h1 font-semibold text-base-content">Recipe not found</h1>
+        <h1 className="text-[22px] font-semibold text-base-content">Recipe not found</h1>
         <Link
           href="/recipes"
-          className="text-body font-medium uppercase tracking-wide"
+          className="text-[14px] font-semibold uppercase tracking-wide"
           style={{ color: '#5555FF' }}
         >
           ← Back to Recipes
@@ -107,11 +116,10 @@ export default function RecipeDetailPage() {
     );
   }
 
-  const initials = getInitials(recipe);
-  const authorName =
-    recipe.creator?.username ??
-    [recipe.creator?.first_name, recipe.creator?.last_name].filter(Boolean).join(' ') ??
-    'Unknown';
+  const initials = getInitials(author);
+  const authorName = author
+    ? [author.first_name, author.last_name].filter(Boolean).join(' ')
+    : 'Unknown';
 
   return (
     <div className="px-[100px] py-8 space-y-6 bg-[#FBFBFB] min-h-screen">
@@ -125,14 +133,14 @@ export default function RecipeDetailPage() {
       </Link>
 
       {/* Title */}
-      <h1 className="text-title font-bold text-base-content leading-tight">
-        {recipe.title}
+      <h1 className="text-[32px] font-bold text-base-content leading-tight">
+        {recipe.name}
       </h1>
 
       {/* Author row + Save button */}
       <div className="flex items-center justify-between gap-4">
         <div className="flex items-center gap-2">
-          <span className="text-body text-base-content/60">Recipe by</span>
+          <span className="text-[14px] text-base-content/60">Recipe by</span>
           {/* Avatar circle */}
           <div
             className="w-7 h-7 rounded-full flex items-center justify-center text-[11px] font-bold text-white flex-shrink-0"
@@ -140,7 +148,7 @@ export default function RecipeDetailPage() {
           >
             {initials}
           </div>
-          <span className="text-body font-medium text-base-content">{authorName}</span>
+          <span className="text-[14px] font-medium text-base-content">{authorName}</span>
         </div>
 
         {/* Save Recipe button */}
@@ -148,7 +156,7 @@ export default function RecipeDetailPage() {
           <button
             onClick={handleSaveToggle}
             disabled={savingInProgress}
-            className="px-5 py-2 rounded-full text-sm font-semibold text-white transition disabled:opacity-60"
+            className="px-[30px] py-[10px] rounded-lg text-[14px] font-semibold text-white transition disabled:opacity-60"
             style={{ backgroundColor: '#5555FF' }}
           >
             {savingInProgress
@@ -188,9 +196,9 @@ export default function RecipeDetailPage() {
         <FamilyHistory familyHistory={recipe.family_history} />
       )}
 
-      {/* Comments */}
+      {/* Reviews */}
       <div className="pt-4 border-t border-base-300">
-        <CommentSection recipeId={recipe.id} />
+        <ReviewSection recipeId={recipe.recipe_id} />
       </div>
     </div>
   );

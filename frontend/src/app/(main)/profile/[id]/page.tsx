@@ -4,31 +4,31 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { usersApi } from '@/lib/api';
 import { useAuth } from '@/hooks/useAuth';
-import type { Profile } from '@/lib/types';
+import type { User } from '@/lib/types';
 import ProfileHeader from '@/components/profile/ProfileHeader';
 import ProfileTabs from '@/components/profile/ProfileTabs';
 
 export default function UserProfilePage() {
   const params = useParams();
-  const username = params.username as string;
+  const userId = params.id as string;
 
   const { user } = useAuth();
-  const [profile, setProfile] = useState<Profile | null>(null);
+  const [profile, setProfile] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
 
-  const isOwnProfile = !!user && user.profile.username === username;
+  const isOwnProfile = !!user && user.id === userId;
 
   useEffect(() => {
-    if (!username) return;
+    if (!userId) return;
 
     setLoading(true);
     setNotFound(false);
 
     usersApi
-      .getProfile(username)
+      .getUser(userId)
       .then((res) => {
-        setProfile(res.data.data);
+        setProfile(res.data);
       })
       .catch((err) => {
         if (err?.response?.status === 404) {
@@ -38,7 +38,7 @@ export default function UserProfilePage() {
       .finally(() => {
         setLoading(false);
       });
-  }, [username]);
+  }, [userId]);
 
   if (loading) {
     return (
@@ -68,9 +68,9 @@ export default function UserProfilePage() {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
         <span className="text-5xl">🍽️</span>
-        <h1 className="text-h1 font-semibold text-gray-900">User not found</h1>
-        <p className="text-body text-gray-500">
-          The profile <span className="font-medium">@{username}</span> does not exist.
+        <h1 className="text-[22px] font-semibold text-gray-900">User not found</h1>
+        <p className="text-[14px] text-gray-500">
+          The profile with id <span className="font-medium">{userId}</span> does not exist.
         </p>
       </div>
     );
@@ -79,7 +79,7 @@ export default function UserProfilePage() {
   return (
     <div className="px-[100px] py-10 max-w-[1400px] mx-auto">
       <ProfileHeader profile={profile} isOwnProfile={isOwnProfile} />
-      <ProfileTabs username={username} isOwnProfile={isOwnProfile} />
+      <ProfileTabs userId={userId} isOwnProfile={isOwnProfile} />
     </div>
   );
 }

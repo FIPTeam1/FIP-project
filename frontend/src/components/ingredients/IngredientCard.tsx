@@ -2,15 +2,31 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import type { IngredientGlossaryItem } from '@/lib/types';
+import type { Ingredient } from '@/lib/types';
 
 interface Props {
-  item: IngredientGlossaryItem;
+  item: Ingredient;
+}
+
+function parseSubstitutes(raw: string | null): string[] {
+  if (!raw) return [];
+  try {
+    const parsed = JSON.parse(raw);
+    if (Array.isArray(parsed)) return parsed.map(String);
+  } catch {
+    return raw
+      .split(/[,\n]/)
+      .map((s) => s.trim())
+      .filter(Boolean);
+  }
+  return [raw];
 }
 
 export default function IngredientCard({ item }: Props) {
   const [expanded, setExpanded] = useState(false);
   const [bookmarked, setBookmarked] = useState(false);
+
+  const substitutes = parseSubstitutes(item.substitutes);
 
   return (
     <div className="bg-white rounded-xl shadow-sm border border-base-200 overflow-hidden flex flex-col">
@@ -22,10 +38,10 @@ export default function IngredientCard({ item }: Props) {
           aria-expanded={expanded}
           aria-label={`${expanded ? 'Collapse' : 'Expand'} ${item.name}`}
         >
-          {item.image_url ? (
+          {item.image ? (
             <div className="relative w-full aspect-square">
               <Image
-                src={item.image_url}
+                src={item.image}
                 alt={item.name}
                 fill
                 className="object-cover rounded-t-xl"
@@ -49,7 +65,6 @@ export default function IngredientCard({ item }: Props) {
           className="absolute top-2 right-2 w-9 h-9 rounded-full bg-white/80 backdrop-blur-sm border border-base-200 flex items-center justify-center hover:bg-white transition-colors shadow-sm"
         >
           {bookmarked ? (
-            /* Filled bookmark */
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -63,7 +78,6 @@ export default function IngredientCard({ item }: Props) {
               />
             </svg>
           ) : (
-            /* Outlined bookmark */
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -87,52 +101,24 @@ export default function IngredientCard({ item }: Props) {
         className="px-4 pt-3 pb-2 text-left w-full"
         onClick={() => setExpanded((prev) => !prev)}
       >
-        <span className="text-h3 text-base-content">{item.name}</span>
-        <span className="ml-2 text-base-300 text-xs">
-          {expanded ? '▲' : '▼'}
-        </span>
+        <span className="text-[16px] font-medium text-base-content">{item.name}</span>
+        <span className="ml-2 text-base-300 text-xs">{expanded ? '▲' : '▼'}</span>
       </button>
 
       {/* Expanded: substitutes */}
       {expanded && (
         <div className="px-4 pb-4 border-t border-base-200 mt-1">
-          <p className="text-body text-base-300 mt-2 mb-3 font-medium uppercase tracking-wide text-xs">
+          <p className="text-[14px] text-base-300 mt-2 mb-3 font-medium uppercase tracking-wide text-xs">
             Substitutes
           </p>
-          {!item.substitutes || item.substitutes.length === 0 ? (
-            <p className="text-body text-base-300 italic">No substitutes listed.</p>
+          {substitutes.length === 0 ? (
+            <p className="text-[14px] text-base-300 italic">No substitutes listed.</p>
           ) : (
-            <ul className="flex flex-col gap-3">
-              {item.substitutes.map((sub) => (
-                <li key={sub.id} className="flex items-center gap-3">
-                  {/* Substitute image */}
-                  {sub.image_url ? (
-                    <div className="relative w-14 h-14 flex-shrink-0">
-                      <Image
-                        src={sub.image_url}
-                        alt={sub.name}
-                        fill
-                        className="object-cover rounded-lg"
-                        sizes="56px"
-                      />
-                    </div>
-                  ) : (
-                    <div className="w-14 h-14 flex-shrink-0 rounded-lg bg-base-200 flex items-center justify-center text-2xl">
-                      🌿
-                    </div>
-                  )}
-                  <div className="flex flex-col min-w-0">
-                    <span className="text-body font-medium text-base-content truncate">
-                      {sub.name}
-                    </span>
-                    {(sub.price_range || sub.unit) && (
-                      <span className="text-body text-base-300 text-xs">
-                        {sub.price_range}
-                        {sub.price_range && sub.unit ? ' · ' : ''}
-                        {sub.unit}
-                      </span>
-                    )}
-                  </div>
+            <ul className="flex flex-col gap-2">
+              {substitutes.map((sub, i) => (
+                <li key={i} className="flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-[#FCAF3B] flex-shrink-0" />
+                  <span className="text-[14px] text-base-content">{sub}</span>
                 </li>
               ))}
             </ul>

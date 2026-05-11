@@ -1,116 +1,72 @@
-export interface Profile {
+export interface User {
   id: string;
-  username: string;
-  first_name: string | null;
+  first_name: string;
   last_name: string | null;
-  avatar_url: string | null;
-  bio: string | null;
-  location: string | null;
-  created_at: string;
-  average_rating?: number;
-}
-
-export interface RecipeIngredient {
-  id: string;
-  recipe_id: string;
-  quantity: string | null;
-  measurement: string | null;
-  ingredient_name: string;
-  order_index: number;
-}
-
-export interface RecipeInstruction {
-  id: string;
-  recipe_id: string;
-  step_number: number;
-  description: string;
-}
-
-export interface FamilyHistory {
-  id: string;
-  recipe_id: string;
-  creator_name: string | null;
-  family_name: string | null;
-  ancestral_origin: string | null;
-  story: string | null;
-  photo_url: string | null;
+  profile_picture: string | null;
+  rating: number | null;
+  description: string | null;
 }
 
 export interface Recipe {
-  id: string;
-  title: string;
+  recipe_id: number;
+  image: string | null;
+  name: string;
   description: string | null;
-  image_url: string | null;
-  location_of_origin: string | null;
-  servings: number | null;
-  time_duration: string | null;
-  creator_id: string;
-  is_draft: boolean;
-  created_at: string;
-  updated_at: string;
-  creator?: Profile;
-  ingredients?: RecipeIngredient[];
-  instructions?: RecipeInstruction[];
-  family_history?: FamilyHistory | null;
-  is_saved?: boolean;
-  average_rating?: number;
-}
-
-export interface Comment {
-  id: string;
-  recipe_id: string;
+  duration: string | null;
+  location: string | null;
+  type: string | null;
+  ingredients: string | null; // JSON or text
+  family_history_id: number | null;
+  category: string | null;
   user_id: string;
-  content: string;
-  parent_comment_id: string | null;
-  created_at: string;
-  updated_at: string;
-  user?: Profile;
-  replies?: Comment[];
+  // Joined on detail endpoint
+  family_history?: FamilyHistory | null;
 }
 
-export interface IngredientSubstitute {
-  id: string;
-  ingredient_id: string;
-  name: string;
-  price_range: string | null;
-  unit: string | null;
-  image_url: string | null;
+export interface FamilyHistory {
+  id: number;
+  family_photo: string | null;
+  creator: string | null; // user id or name
+  family_name_origin: string | null;
+  story: string | null;
 }
 
-export interface IngredientGlossaryItem {
-  id: string;
+export interface Review {
+  id: number;
+  user_id: string;
+  recipe_id: number;
+  rating: number;
+  review: string | null;
+  name: string | null;
+  created_at?: string;
+}
+
+export interface Ingredient {
+  id: number;
   name: string;
-  image_url: string | null;
-  substitutes?: IngredientSubstitute[];
+  image: string | null;
+  substitutes: string | null; // JSON array or text
+}
+
+export interface SavedRecipe {
+  id: number;
+  user_id: string;
+  recipe_id: number;
+  recipe?: Recipe | null;
 }
 
 export interface AuthUser {
   id: string;
   email: string;
-  profile: Profile;
+  // Full profile fetched from /me
+  profile: User;
 }
 
 export interface ApiError {
-  message: string;
-  status?: number;
+  error: string;
 }
 
-export interface PaginatedResponse<T> {
-  data: T[];
-  total: number;
-  page: number;
-  limit: number;
-}
-
-export interface RecipeFilters {
-  search?: string;
-  region?: string;
-  category?: string;
-  page?: number;
-  limit?: number;
-}
-
-// Form types
+// Form helper types
 export interface IngredientRow {
   quantity: string;
   measurement: string;
@@ -119,20 +75,4 @@ export interface IngredientRow {
 
 export interface InstructionRow {
   description: string;
-}
-
-export interface CreateRecipeForm {
-  title: string;
-  description: string;
-  location_of_origin: string;
-  servings: string;
-  time_duration: string;
-  image_url: string;
-  ingredients: IngredientRow[];
-  instructions: InstructionRow[];
-  family_creator_name: string;
-  family_name: string;
-  family_origin: string;
-  family_story: string;
-  family_photo_url: string;
 }

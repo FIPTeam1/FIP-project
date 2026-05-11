@@ -10,7 +10,7 @@ export default function ProfileRedirectPage() {
 
   useEffect(() => {
     if (!loading && user) {
-      router.replace(`/profile/${user.profile.username}`);
+      router.replace(`/profile/${user.id}`);
     }
   }, [user, loading, router]);
 
