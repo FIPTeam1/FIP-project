@@ -18,22 +18,34 @@ function getInitials(user: User | null): string {
   return (first + last).toUpperCase() || '?';
 }
 
+function BackArrow() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="15 18 9 12 15 6" />
+    </svg>
+  );
+}
+
+function SaveIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+      <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
+    </svg>
+  );
+}
+
 function SkeletonLoader() {
   return (
-    <div className="px-[100px] py-8 space-y-6 animate-pulse">
-      <div className="h-4 w-32 rounded bg-base-300" />
-      <div className="h-8 w-64 rounded bg-base-300" />
-      <div className="h-4 w-48 rounded bg-base-300" />
-      <div className="w-full aspect-[16/7] rounded-xl bg-base-300" />
+    <div className="px-4 sm:px-8 md:px-[100px] py-6 md:py-8 space-y-6 animate-pulse bg-[#FBFBFB] min-h-screen">
+      <div className="h-3 w-28 rounded bg-[#F0F0F0]" />
+      <div className="h-8 w-72 rounded bg-[#F0F0F0]" />
+      <div className="h-4 w-48 rounded bg-[#F0F0F0]" />
+      <div className="h-10 w-full rounded bg-[#F0F0F0]" />
+      <div className="w-full aspect-[16/7] rounded-2xl bg-[#F0F0F0]" />
       <div className="flex gap-3">
-        <div className="h-6 w-24 rounded-full bg-base-300" />
-        <div className="h-6 w-20 rounded-full bg-base-300" />
-        <div className="h-6 w-20 rounded-full bg-base-300" />
-      </div>
-      <div className="space-y-2">
-        <div className="h-3 w-full rounded bg-base-300" />
-        <div className="h-3 w-5/6 rounded bg-base-300" />
-        <div className="h-3 w-4/6 rounded bg-base-300" />
+        <div className="h-6 w-24 rounded-full bg-[#F0F0F0]" />
+        <div className="h-6 w-20 rounded-full bg-[#F0F0F0]" />
+        <div className="h-6 w-20 rounded-full bg-[#F0F0F0]" />
       </div>
     </div>
   );
@@ -58,21 +70,15 @@ export default function RecipeDetailPage() {
       try {
         const res = await recipesApi.get(id);
         setRecipe(res.data);
-
-        // Fetch author info
         if (res.data.user_id) {
           try {
             const userRes = await usersApi.getUser(res.data.user_id);
             setAuthor(userRes.data);
-          } catch {
-            // author info is optional
-          }
+          } catch { /* author optional */ }
         }
       } catch (err: unknown) {
         const axiosErr = err as { response?: { status?: number } };
-        if (axiosErr?.response?.status === 404) {
-          setNotFound(true);
-        }
+        if (axiosErr?.response?.status === 404) setNotFound(true);
       } finally {
         setLoading(false);
       }
@@ -91,25 +97,18 @@ export default function RecipeDetailPage() {
         await recipesApi.save(recipe.recipe_id);
         setIsSaved(true);
       }
-    } catch {
-      // ignore
-    } finally {
-      setSavingInProgress(false);
-    }
+    } catch { /* ignore */ }
+    finally { setSavingInProgress(false); }
   };
 
   if (loading) return <SkeletonLoader />;
 
   if (notFound || !recipe) {
     return (
-      <div className="px-[100px] py-16 flex flex-col items-center gap-4">
+      <div className="flex flex-col items-center justify-center min-h-screen gap-4 bg-[#FBFBFB]">
         <span className="text-6xl">🍽️</span>
-        <h1 className="text-[22px] font-semibold text-base-content">Recipe not found</h1>
-        <Link
-          href="/recipes"
-          className="text-[14px] font-semibold uppercase tracking-wide"
-          style={{ color: '#5555FF' }}
-        >
+        <h1 className="text-[22px] font-semibold text-[#111827]">Recipe not found</h1>
+        <Link href="/recipes" className="text-[13px] font-semibold text-[#5555FF] uppercase tracking-wider hover:underline">
           ← Back to Recipes
         </Link>
       </div>
@@ -122,83 +121,85 @@ export default function RecipeDetailPage() {
     : 'Unknown';
 
   return (
-    <div className="px-[100px] py-8 space-y-6 bg-[#FBFBFB] min-h-screen">
-      {/* Breadcrumb */}
-      <Link
-        href="/recipes"
-        className="inline-block text-xs font-semibold uppercase tracking-widest"
-        style={{ color: '#5555FF' }}
-      >
-        ← Back to Recipes
-      </Link>
+    <div className="bg-[#FBFBFB] min-h-screen">
+      <div className="px-4 sm:px-8 md:px-[100px] py-6 md:py-8">
 
-      {/* Title */}
-      <h1 className="text-[32px] font-bold text-base-content leading-tight">
-        {recipe.name}
-      </h1>
+        {/* ── Breadcrumb ── */}
+        <Link
+          href="/recipes"
+          className="inline-flex items-center gap-1.5 text-[12px] font-semibold uppercase tracking-widest text-[#5555FF] hover:opacity-70 transition-opacity mb-6"
+        >
+          <BackArrow />
+          Back to Recipes
+        </Link>
 
-      {/* Author row + Save button */}
-      <div className="flex items-center justify-between gap-4">
-        <div className="flex items-center gap-2">
-          <span className="text-[14px] text-base-content/60">Recipe by</span>
-          {/* Avatar circle */}
-          <div
-            className="w-7 h-7 rounded-full flex items-center justify-center text-[11px] font-bold text-white flex-shrink-0"
-            style={{ backgroundColor: '#FCAF3B' }}
-          >
-            {initials}
+        {/* ── Title ── */}
+        <h1 className="text-[22px] sm:text-[28px] font-bold text-[#111827] leading-tight mb-4">
+          {recipe.name}
+        </h1>
+
+        {/* ── Author + Save ── */}
+        <div className="flex items-center justify-between gap-4 mb-6">
+          <div className="flex items-center gap-2">
+            <span className="text-[13px] text-[#909090]">Recipe by</span>
+            <div
+              className="w-7 h-7 rounded-full flex items-center justify-center text-[11px] font-bold text-white shrink-0"
+              style={{ backgroundColor: '#FCAF3B' }}
+            >
+              {initials}
+            </div>
+            <span className="text-[14px] font-semibold text-[#111827]">{authorName}</span>
           </div>
-          <span className="text-[14px] font-medium text-base-content">{authorName}</span>
+
+          {user && (
+            <button
+              onClick={handleSaveToggle}
+              disabled={savingInProgress}
+              className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-[13px] font-semibold transition-all border ${
+                isSaved
+                  ? 'bg-[#5555FF] text-white border-[#5555FF]'
+                  : 'bg-white text-[#5555FF] border-[#5555FF] hover:bg-[#5555FF] hover:text-white'
+              } disabled:opacity-50`}
+            >
+              <SaveIcon />
+              {savingInProgress ? '…' : isSaved ? 'Saved' : 'Save Recipe'}
+            </button>
+          )}
         </div>
 
-        {/* Save Recipe button */}
-        {user && (
-          <button
-            onClick={handleSaveToggle}
-            disabled={savingInProgress}
-            className="px-[30px] py-[10px] rounded-lg text-[14px] font-semibold text-white transition disabled:opacity-60"
-            style={{ backgroundColor: '#5555FF' }}
-          >
-            {savingInProgress
-              ? '…'
-              : isSaved
-              ? '✓ Saved'
-              : 'Save Recipe'}
-          </button>
+        {/* ── Tabs ── */}
+        <div className="flex border-b border-[#F0F0F0] mb-6">
+          {(['recipe', 'family'] as const).map((tab) => {
+            const label = tab === 'recipe' ? 'Recipe Instructions' : 'Family History';
+            const isActive = activeTab === tab;
+            return (
+              <button
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                className={`px-3 sm:px-6 py-3 text-[12px] sm:text-[13px] font-semibold transition-colors border-b-2 -mb-px ${
+                  isActive
+                    ? 'border-[#FCAF3B] text-[#111827]'
+                    : 'border-transparent text-[#909090] hover:text-[#111827]'
+                }`}
+              >
+                {label}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* ── Tab content ── */}
+        {activeTab === 'recipe' ? (
+          <>
+            <RecipeDetail recipe={recipe} />
+            <div className="mt-8 pt-8 border-t border-[#F0F0F0]">
+              <ReviewSection recipeId={recipe.recipe_id} />
+            </div>
+          </>
+        ) : (
+          <FamilyHistory familyHistory={recipe.family_history} />
         )}
-      </div>
 
-      {/* Tabs */}
-      <div className="border-b border-base-300 flex gap-8">
-        {(['recipe', 'family'] as const).map((tab) => {
-          const label = tab === 'recipe' ? 'Recipe Instructions' : 'Family History';
-          const isActive = activeTab === tab;
-          return (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`pb-2 text-sm font-medium transition-colors ${
-                isActive
-                  ? 'border-b-2 border-[#FCAF3B] text-base-content'
-                  : 'text-base-content/50 hover:text-base-content'
-              }`}
-            >
-              {label}
-            </button>
-          );
-        })}
-      </div>
-
-      {/* Tab content */}
-      {activeTab === 'recipe' ? (
-        <RecipeDetail recipe={recipe} />
-      ) : (
-        <FamilyHistory familyHistory={recipe.family_history} />
-      )}
-
-      {/* Reviews */}
-      <div className="pt-4 border-t border-base-300">
-        <ReviewSection recipeId={recipe.recipe_id} />
       </div>
     </div>
   );

@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
 import type { Ingredient } from '@/lib/types';
 
 interface Props {
@@ -39,13 +38,12 @@ export default function IngredientCard({ item }: Props) {
           aria-label={`${expanded ? 'Collapse' : 'Expand'} ${item.name}`}
         >
           {item.image ? (
-            <div className="relative w-full aspect-square">
-              <Image
+            <div className="w-full aspect-square overflow-hidden">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
                 src={item.image}
                 alt={item.name}
-                fill
-                className="object-cover rounded-t-xl"
-                sizes="(max-width: 768px) 100vw, 33vw"
+                className="w-full h-full object-cover rounded-t-xl"
               />
             </div>
           ) : (

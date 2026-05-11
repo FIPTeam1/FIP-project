@@ -100,7 +100,7 @@ export default function CreateRecipeForm() {
   // ── Render ─────────────────────────────────────────────────────────────────
 
   return (
-    <div className="min-h-screen bg-[#FBFBFB] px-[100px] py-10">
+    <div className="min-h-screen bg-[#FBFBFB] px-4 sm:px-8 md:px-[100px] py-6 md:py-10">
       <h1 className="text-[32px] font-bold mb-8">Create New Recipe</h1>
 
       {error && (

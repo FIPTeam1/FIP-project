@@ -7,7 +7,7 @@ export default function MainLayout({ children }: { children: ReactNode }) {
     <AuthGuard>
       <div className="flex min-h-screen">
         <Sidebar />
-        <main className="flex-1 overflow-y-auto">{children}</main>
+        <main className="flex-1 overflow-y-auto pb-[60px] md:pb-0">{children}</main>
       </div>
     </AuthGuard>
   );

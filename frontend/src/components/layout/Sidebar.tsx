@@ -5,49 +5,55 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 
-function HomeIcon() {
+function HomeIcon({ size = 20 }: { size?: number }) {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
-      <path d="M11.47 3.841a.75.75 0 0 1 1.06 0l8.69 8.69a.75.75 0 1 0 1.06-1.061l-8.689-8.69a2.25 2.25 0 0 0-3.182 0l-8.69 8.69a.75.75 0 1 0 1.061 1.06l8.69-8.689Z" />
-      <path d="m12 5.432 8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 0 1-.75-.75v-4.5a.75.75 0 0 0-.75-.75h-3a.75.75 0 0 0-.75.75V21a.75.75 0 0 1-.75.75H5.625a1.875 1.875 0 0 1-1.875-1.875v-6.198a2.29 2.29 0 0 0 .091-.086L12 5.432Z" />
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+      <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+      <polyline points="9 22 9 12 15 12 15 22" />
     </svg>
   );
 }
 
-function CreateIcon() {
+function CreateIcon({ size = 20 }: { size?: number }) {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
-      <path fillRule="evenodd" d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z" clipRule="evenodd" />
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="10" />
+      <line x1="12" y1="8" x2="12" y2="16" />
+      <line x1="8" y1="12" x2="16" y2="12" />
     </svg>
   );
 }
 
-function GlossaryIcon() {
+function GlossaryIcon({ size = 20 }: { size?: number }) {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
-      <path d="M11.25 4.533A9.707 9.707 0 0 0 6 3a9.735 9.735 0 0 0-3.25.555.75.75 0 0 0-.5.707v14.25a.75.75 0 0 0 1 .707A8.237 8.237 0 0 1 6 18.75c1.995 0 3.823.707 5.25 1.886V4.533ZM12.75 20.636A8.214 8.214 0 0 1 18 18.75c.966 0 1.89.166 2.75.47a.75.75 0 0 0 1-.708V4.262a.75.75 0 0 0-.5-.707A9.735 9.735 0 0 0 18 3a9.707 9.707 0 0 0-5.25 1.533v16.103Z" />
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
     </svg>
   );
 }
 
-function ProfileIcon() {
+function ProfileIcon({ size = 20 }: { size?: number }) {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
-      <path fillRule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" clipRule="evenodd" />
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+      <circle cx="12" cy="7" r="4" />
     </svg>
   );
 }
 
-function LogoutIcon() {
+function LogoutIcon({ size = 18 }: { size?: number }) {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
-      <path fillRule="evenodd" d="M7.5 3.75A1.5 1.5 0 0 0 6 5.25v13.5a1.5 1.5 0 0 0 1.5 1.5h6a1.5 1.5 0 0 0 1.5-1.5V15a.75.75 0 0 1 1.5 0v3.75a3 3 0 0 1-3 3h-6a3 3 0 0 1-3-3V5.25a3 3 0 0 1 3-3h6a3 3 0 0 1 3 3V9A.75.75 0 0 1 15 9V5.25a1.5 1.5 0 0 0-1.5-1.5h-6Zm5.03 4.72a.75.75 0 0 1 0 1.06l-1.72 1.72h10.94a.75.75 0 0 1 0 1.5H10.81l1.72 1.72a.75.75 0 1 1-1.06 1.06l-3-3a.75.75 0 0 1 0-1.06l3-3a.75.75 0 0 1 1.06 0Z" clipRule="evenodd" />
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+      <polyline points="16 17 21 12 16 7" />
+      <line x1="21" y1="12" x2="9" y2="12" />
     </svg>
   );
 }
 
 export default function Sidebar() {
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
   const pathname = usePathname();
   const router = useRouter();
   const { user, logout } = useAuth();
@@ -66,125 +72,180 @@ export default function Sidebar() {
     : '?';
 
   const navItems = [
-    { href: '/recipes', label: 'Recipe Library', icon: <HomeIcon /> },
-    { href: '/recipes/create', label: 'Create Recipe', icon: <CreateIcon /> },
-    { href: '/ingredients', label: 'Ingredient Glossary', icon: <GlossaryIcon /> },
-    ...(user ? [{ href: `/profile/${user.id}`, label: 'My Profile', icon: <ProfileIcon /> }] : []),
+    { href: '/recipes', label: 'Recipes', icon: <HomeIcon /> },
+    { href: '/recipes/create', label: 'Create', icon: <CreateIcon /> },
+    { href: '/ingredients', label: 'Glossary', icon: <GlossaryIcon /> },
+    ...(user ? [{ href: `/profile/${user.id}`, label: 'Profile', icon: <ProfileIcon /> }] : []),
   ];
 
-  return (
-    <aside
-      className={`flex flex-col h-screen bg-white border-r border-[#F0F0F0] transition-all duration-300 shrink-0 ${
-        collapsed ? 'w-[68px]' : 'w-[240px]'
-      }`}
+  function isActive(href: string) {
+    const isProfile = href.startsWith('/profile/');
+    return isProfile
+      ? pathname.startsWith('/profile/')
+      : pathname === href || (href !== '/recipes' && pathname.startsWith(href + '/'));
+  }
+
+  // ── Mobile bottom nav (hidden on md+) ─────────────────────────────────────
+  const mobileNav = (
+    <nav
+      className="md:hidden fixed bottom-0 inset-x-0 bg-white border-t border-[#F0F0F0] z-50 flex items-stretch"
+      style={{ height: 'calc(60px + env(safe-area-inset-bottom, 0px))', paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
     >
-      {/* Logo area */}
-      <div className="flex items-center h-[72px] px-4 border-b border-[#F0F0F0]">
-        {!collapsed ? (
-          <>
-            <Link href="/recipes" className="flex items-center gap-2.5 flex-1 min-w-0">
-              <div
-                className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
-                style={{ backgroundColor: '#FCAF3B' }}
-              >
-                <span className="text-[10px] font-bold text-white leading-none">FIP</span>
-              </div>
-              <div className="min-w-0">
-                <p className="text-[14px] font-bold text-[#111827] leading-tight truncate">Pagkainterest</p>
-                <p className="text-[11px] text-[#909090] leading-tight">Filipino Recipes</p>
-              </div>
-            </Link>
-            <button
-              onClick={() => setCollapsed(true)}
-              className="shrink-0 p-1 text-[#909090] hover:text-[#111827] transition-colors ml-2"
-              aria-label="Collapse sidebar"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
-              </svg>
-            </button>
-          </>
-        ) : (
+      {navItems.map(({ href, label, icon }) => {
+        const active = isActive(href);
+        return (
+          <Link
+            key={href}
+            href={href}
+            className={`flex flex-col items-center justify-center gap-0.5 flex-1 transition-colors ${
+              active ? 'text-[#FCAF3B]' : 'text-[#909090]'
+            }`}
+          >
+            <span className="shrink-0">{icon}</span>
+            <span className="text-[10px] font-medium">{label}</span>
+          </Link>
+        );
+      })}
+    </nav>
+  );
+
+  // ── Collapsed desktop sidebar ──────────────────────────────────────────────
+  if (collapsed) {
+    return (
+      <>
+        <aside className="hidden md:flex flex-col h-screen bg-white border-r border-[#F0F0F0] w-[56px] shrink-0">
+          {/* Expand button */}
           <button
             onClick={() => setCollapsed(false)}
-            className="mx-auto"
+            className="flex items-center justify-center h-[60px] w-full text-[#909090] hover:text-[#111827] transition-colors"
             aria-label="Expand sidebar"
           >
+            <span className="text-[15px] font-bold tracking-tight select-none">&raquo;</span>
+          </button>
+
+          {/* Spacer */}
+          <div className="flex-1" />
+
+          {/* Bottom: profile + logout */}
+          {user && (
+            <div className="flex flex-col items-center gap-3 pb-5">
+              <Link
+                href={`/profile/${user.id}`}
+                className="w-8 h-8 rounded-full flex items-center justify-center overflow-hidden flex-shrink-0"
+                style={{ backgroundColor: '#FCAF3B' }}
+                title={displayName}
+              >
+                {user.profile.profile_picture ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={user.profile.profile_picture}
+                    alt={displayName}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <span className="text-[11px] font-bold text-white leading-none">{initials}</span>
+                )}
+              </Link>
+
+              <button
+                onClick={handleLogout}
+                title="Sign Out"
+                className="w-8 h-8 rounded-full flex items-center justify-center text-[#909090] hover:text-[#F04C4C] hover:bg-[#FEE2E2] transition-colors"
+              >
+                <LogoutIcon />
+              </button>
+            </div>
+          )}
+        </aside>
+        {mobileNav}
+      </>
+    );
+  }
+
+  // ── Expanded desktop sidebar ───────────────────────────────────────────────
+  return (
+    <>
+      <aside className="hidden md:flex flex-col h-screen bg-white border-r border-[#F0F0F0] w-[240px] shrink-0 transition-all duration-200">
+        {/* Logo + collapse button */}
+        <div className="flex items-center h-[60px] px-4 border-b border-[#F0F0F0]">
+          <Link href="/recipes" className="flex items-center gap-2.5 flex-1 min-w-0">
             <div
-              className="w-8 h-8 rounded-lg flex items-center justify-center"
+              className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
               style={{ backgroundColor: '#FCAF3B' }}
             >
               <span className="text-[10px] font-bold text-white leading-none">FIP</span>
             </div>
-          </button>
-        )}
-      </div>
-
-      {/* Nav links */}
-      <nav className="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto">
-        {navItems.map(({ href, label, icon }) => {
-          const isProfile = href.startsWith('/profile/');
-          const active = isProfile
-            ? pathname.startsWith('/profile/')
-            : pathname === href ||
-              (href !== '/recipes' && pathname.startsWith(href + '/'));
-
-          return (
-            <Link
-              key={href}
-              href={href}
-              title={collapsed ? label : undefined}
-              className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-[14px] font-medium transition-colors ${
-                active
-                  ? 'bg-[#5555FF]/10 text-[#5555FF]'
-                  : 'text-[#374151] hover:bg-[#F5F5F5] hover:text-[#111827]'
-              } ${collapsed ? 'justify-center' : ''}`}
-            >
-              <span className="shrink-0">{icon}</span>
-              {!collapsed && <span className="truncate">{label}</span>}
-            </Link>
-          );
-        })}
-      </nav>
-
-      {/* User section */}
-      {user && (
-        <div className="border-t border-[#F0F0F0] p-3 space-y-0.5">
-          <div
-            className={`flex items-center gap-3 px-3 py-2 ${collapsed ? 'justify-center' : ''}`}
-          >
-            <div
-              className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 overflow-hidden"
-              style={{ backgroundColor: '#FCAF3B' }}
-            >
-              {user.profile.profile_picture ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={user.profile.profile_picture}
-                  alt={displayName}
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                <span className="text-[11px] font-bold text-white">{initials}</span>
-              )}
+            <div className="min-w-0">
+              <p className="text-[13px] font-bold text-[#111827] leading-tight truncate">Pagkainterest</p>
+              <p className="text-[11px] text-[#909090] leading-tight">Filipino Recipes</p>
             </div>
-            {!collapsed && (
-              <p className="text-[13px] font-semibold text-[#111827] truncate">{displayName}</p>
-            )}
-          </div>
+          </Link>
 
           <button
-            onClick={handleLogout}
-            title={collapsed ? 'Sign Out' : undefined}
-            className={`flex items-center gap-3 w-full px-3 py-2 rounded-lg text-[14px] text-[#909090] hover:bg-[#FEE2E2] hover:text-[#F04C4C] transition-colors ${
-              collapsed ? 'justify-center' : ''
-            }`}
+            onClick={() => setCollapsed(true)}
+            className="shrink-0 p-1.5 text-[#909090] hover:text-[#111827] transition-colors"
+            aria-label="Collapse sidebar"
           >
-            <span className="shrink-0"><LogoutIcon /></span>
-            {!collapsed && <span>Sign Out</span>}
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="15 18 9 12 15 6" />
+            </svg>
           </button>
         </div>
-      )}
-    </aside>
+
+        {/* Nav links */}
+        <nav className="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto">
+          {navItems.map(({ href, label, icon }) => {
+            const active = isActive(href);
+            return (
+              <Link
+                key={href}
+                href={href}
+                className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-[13px] font-medium transition-colors ${
+                  active
+                    ? 'bg-[#FFF8EC] text-[#FCAF3B]'
+                    : 'text-[#6B7280] hover:bg-[#F9FAFB] hover:text-[#111827]'
+                }`}
+              >
+                <span className="shrink-0">{icon}</span>
+                <span className="truncate">{label}</span>
+              </Link>
+            );
+          })}
+        </nav>
+
+        {/* User section */}
+        {user && (
+          <div className="border-t border-[#F0F0F0] p-3 space-y-1">
+            <div className="flex items-center gap-2.5 px-3 py-2">
+              <div
+                className="w-7 h-7 rounded-full flex items-center justify-center shrink-0 overflow-hidden"
+                style={{ backgroundColor: '#FCAF3B' }}
+              >
+                {user.profile.profile_picture ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={user.profile.profile_picture}
+                    alt={displayName}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <span className="text-[10px] font-bold text-white">{initials}</span>
+                )}
+              </div>
+              <p className="text-[12px] font-semibold text-[#111827] truncate">{displayName}</p>
+            </div>
+
+            <button
+              onClick={handleLogout}
+              className="flex items-center gap-3 w-full px-3 py-2 rounded-lg text-[13px] text-[#6B7280] hover:bg-[#FEE2E2] hover:text-[#F04C4C] transition-colors"
+            >
+              <LogoutIcon />
+              <span>Sign Out</span>
+            </button>
+          </div>
+        )}
+      </aside>
+      {mobileNav}
+    </>
   );
 }

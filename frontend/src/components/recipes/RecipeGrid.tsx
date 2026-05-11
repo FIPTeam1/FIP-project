@@ -8,14 +8,14 @@ interface RecipeGridProps {
 
 function SkeletonCard() {
   return (
-    <div className="bg-white rounded-xl border border-[#F0F0F0] overflow-hidden animate-pulse">
-      <div className="h-[200px] bg-[#F0F0F0]" />
-      <div className="p-4 flex flex-col gap-3">
-        <div className="h-4 bg-[#F0F0F0] rounded w-3/4" />
-        <div className="h-4 bg-[#F0F0F0] rounded w-1/2" />
-        <div className="flex gap-2 mt-1">
-          <div className="h-6 w-20 bg-[#F0F0F0] rounded-full" />
-          <div className="h-6 w-16 bg-[#F0F0F0] rounded-full" />
+    <div className="bg-white rounded-2xl overflow-hidden border border-[#F0F0F0] animate-pulse">
+      <div className="h-[148px] bg-[#F0F0F0]" />
+      <div className="px-3 py-3 space-y-2">
+        <div className="h-3.5 bg-[#F0F0F0] rounded w-3/4" />
+        <div className="h-3 bg-[#F0F0F0] rounded w-1/2" />
+        <div className="flex gap-1.5 pt-1">
+          <div className="h-5 w-16 bg-[#F0F0F0] rounded-full" />
+          <div className="h-5 w-14 bg-[#F0F0F0] rounded-full" />
         </div>
       </div>
     </div>
@@ -25,20 +25,18 @@ function SkeletonCard() {
 export default function RecipeGrid({ recipes, loading }: RecipeGridProps) {
   if (loading) {
     return (
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {Array.from({ length: 6 }).map((_, i) => (
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+        {Array.from({ length: 8 }).map((_, i) => (
           <SkeletonCard key={i} />
         ))}
       </div>
     );
   }
 
-  if (recipes.length === 0) {
-    return null;
-  }
+  if (recipes.length === 0) return null;
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
       {recipes.map((recipe) => (
         <RecipeCard key={recipe.recipe_id} recipe={recipe} />
       ))}

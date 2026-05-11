@@ -42,7 +42,7 @@ export default function UserProfilePage() {
 
   if (loading) {
     return (
-      <div className="px-[100px] py-10">
+      <div className="px-4 sm:px-8 md:px-[100px] py-6 md:py-10">
         {/* Header skeleton */}
         <div className="flex items-center gap-6 mb-8">
           <div className="skeleton w-16 h-16 rounded-full" />
@@ -77,7 +77,7 @@ export default function UserProfilePage() {
   }
 
   return (
-    <div className="px-[100px] py-10 max-w-[1400px] mx-auto">
+    <div className="px-4 sm:px-8 md:px-[100px] py-6 md:py-10 max-w-[1400px] mx-auto">
       <ProfileHeader profile={profile} isOwnProfile={isOwnProfile} />
       <ProfileTabs userId={userId} isOwnProfile={isOwnProfile} />
     </div>
