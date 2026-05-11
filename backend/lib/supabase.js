@@ -9,13 +9,18 @@ if (!supabaseUrl || !supabaseKey) {
   );
 }
 
-// Server-side client uses the service_role key, so it bypasses RLS.
-// We still verify users with `auth.getUser(token)` in middleware before
-// performing any user-scoped writes.
+// Service-role client: bypasses RLS for all database operations.
+// The `global.headers` option explicitly sets the Authorization header so
+// Supabase PostgREST recognises the service_role JWT and skips RLS.
 const supabase = createClient(supabaseUrl || '', supabaseKey || '', {
   auth: {
     autoRefreshToken: false,
     persistSession: false,
+  },
+  global: {
+    headers: {
+      Authorization: `Bearer ${supabaseKey || ''}`,
+    },
   },
 });
 

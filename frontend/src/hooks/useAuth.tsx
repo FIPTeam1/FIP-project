@@ -53,10 +53,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     // Fetch full profile from /me
     const meRes = await usersApi.me();
+    // profile may be null if the Users row insert hasn't propagated yet
+    const profile = meRes.data.profile ?? {
+      id: meRes.data.auth.id,
+      first_name: '',
+      last_name: null,
+      profile_picture: null,
+      rating: null,
+      description: null,
+    };
     const authUser: AuthUser = {
       id: meRes.data.auth.id,
       email: meRes.data.auth.email,
-      profile: meRes.data.profile,
+      profile,
     };
     localStorage.setItem('fip_user', JSON.stringify(authUser));
     setUser(authUser);
