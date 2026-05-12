@@ -58,12 +58,7 @@ export default function RegisterPage() {
 
         {/* FIP Logo */}
         <div className="flex flex-col items-center mb-8">
-          <div
-            className="w-16 h-16 rounded-2xl flex items-center justify-center mb-4"
-            style={{ backgroundColor: '#FCAF3B' }}
-          >
-            <span className="text-2xl font-bold text-white select-none">FIP</span>
-          </div>
+          <img src="/logo.svg" alt="Kainanna! logo" className="w-24 h-24 mb-3 object-contain" />
           <h1 className="text-[32px] font-bold text-[#111827]">Create account</h1>
           <p className="text-[14px] text-[#909090] mt-1">Join the Filipino recipe community</p>
         </div>

@@ -114,14 +114,20 @@ export default function Sidebar() {
     return (
       <>
         <aside className="hidden md:flex flex-col h-screen bg-white border-r border-[#F0F0F0] w-[56px] shrink-0">
-          {/* Expand button */}
-          <button
-            onClick={() => setCollapsed(false)}
-            className="flex items-center justify-center h-[60px] w-full text-[#909090] hover:text-[#111827] transition-colors"
-            aria-label="Expand sidebar"
-          >
-            <span className="text-[15px] font-bold tracking-tight select-none">&raquo;</span>
-          </button>
+          {/* Logo (collapsed) + expand button */}
+          <div className="flex flex-col items-center pt-3 pb-2 gap-1">
+            <Link href="/recipes">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/logo.svg" alt="Kainanna!" className="w-8 h-8 object-contain" />
+            </Link>
+            <button
+              onClick={() => setCollapsed(false)}
+              className="flex items-center justify-center w-full text-[#909090] hover:text-[#111827] transition-colors py-1"
+              aria-label="Expand sidebar"
+            >
+              <span className="text-[13px] font-bold tracking-tight select-none">&raquo;</span>
+            </button>
+          </div>
 
           {/* Spacer */}
           <div className="flex-1" />
@@ -169,16 +175,9 @@ export default function Sidebar() {
         {/* Logo + collapse button */}
         <div className="flex items-center h-[60px] px-4 border-b border-[#F0F0F0]">
           <Link href="/recipes" className="flex items-center gap-2.5 flex-1 min-w-0">
-            <div
-              className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
-              style={{ backgroundColor: '#FCAF3B' }}
-            >
-              <span className="text-[10px] font-bold text-white leading-none">FIP</span>
-            </div>
-            <div className="min-w-0">
-              <p className="text-[13px] font-bold text-[#111827] leading-tight truncate">Pagkainterest</p>
-              <p className="text-[11px] text-[#909090] leading-tight">Filipino Recipes</p>
-            </div>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/logo.svg" alt="Kainanna!" className="w-9 h-9 object-contain flex-shrink-0" />
+            <p className="text-[14px] font-bold text-[#111827] leading-tight truncate">Kainanna!</p>
           </Link>
 
           <button
