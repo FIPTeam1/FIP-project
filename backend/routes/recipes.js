@@ -108,13 +108,15 @@ router.post('/create-recipe', requireAuth, async (req, res) => {
   }
 
   // Recipe table has no auto-increment sequence — compute next id manually.
-  const { data: maxRow } = await supabase
+  const { data: maxRow, error: maxErr } = await supabase
     .from('Recipe')
     .select('recipe_id')
     .order('recipe_id', { ascending: false })
     .limit(1)
     .maybeSingle();
-  const nextId = (maxRow?.recipe_id ?? 0) + 1;
+
+  if (maxErr) console.error('[create-recipe] max id query failed:', maxErr.message);
+  const nextId = Number(maxRow?.recipe_id ?? 0) + 1;
 
   const { data, error } = await supabase
     .from('Recipe')
@@ -134,7 +136,10 @@ router.post('/create-recipe', requireAuth, async (req, res) => {
     .select(RECIPE_COLUMNS)
     .single();
 
-  if (error) return res.status(500).json({ error: error.message });
+  if (error) {
+    console.error('[create-recipe] insert failed:', error.message, { nextId, user: req.user.id });
+    return res.status(500).json({ error: error.message });
+  }
   return res.status(201).json(data);
 });
 
