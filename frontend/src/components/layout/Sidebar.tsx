@@ -177,7 +177,7 @@ export default function Sidebar() {
           <Link href="/recipes" className="flex items-center gap-2.5 flex-1 min-w-0">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/logo.svg" alt="Kainanna!" className="w-9 h-9 object-contain flex-shrink-0" />
-            <p className="text-[14px] font-bold text-[#111827] leading-tight truncate">Kainanna!</p>
+            <p className="text-[14px] font-bold text-[#111827] leading-tight truncate">Kain na!</p>
           </Link>
 
           <button
