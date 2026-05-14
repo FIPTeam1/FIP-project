@@ -4,21 +4,22 @@ const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_SECRET_KEY;
 
 if (!supabaseUrl || !supabaseKey) {
-  console.warn(
-    '[supabase] SUPABASE_URL or SUPABASE_SECRET_KEY missing in .env — most endpoints will fail.'
+  console.error(
+    '[supabase] FATAL: SUPABASE_URL or SUPABASE_SECRET_KEY environment variable is missing.\n' +
+    '  SUPABASE_URL present: ' + !!supabaseUrl + '\n' +
+    '  SUPABASE_SECRET_KEY present: ' + !!supabaseKey
   );
+  process.exit(1);
 }
 
 // Server-side client uses the service_role key, so it bypasses RLS.
-// We still verify users with `auth.getUser(token)` in middleware before
-// performing any user-scoped writes.
-const supabase = createClient(supabaseUrl || '', supabaseKey || '', {
+const supabase = createClient(supabaseUrl, supabaseKey, {
   auth: {
     autoRefreshToken: false,
     persistSession: false,
   },
   global: {
-    headers: { Authorization: `Bearer ${supabaseKey || ''}` },
+    headers: { Authorization: `Bearer ${supabaseKey}` },
   },
 });
 
