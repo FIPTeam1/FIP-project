@@ -47,9 +47,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = useCallback(async (email: string, password: string) => {
     const res = await authApi.login({ email, password });
-    const { access_token } = res.data;
+    const { access_token, refresh_token, expires_at } = res.data;
 
     localStorage.setItem('fip_token', access_token);
+    localStorage.setItem('fip_refresh_token', refresh_token);
+    localStorage.setItem('fip_expires_at', String(expires_at));
 
     // Fetch full profile from /me
     const meRes = await usersApi.me();
@@ -89,6 +91,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       await authApi.logout();
     } finally {
       localStorage.removeItem('fip_token');
+      localStorage.removeItem('fip_refresh_token');
+      localStorage.removeItem('fip_expires_at');
       localStorage.removeItem('fip_user');
       setUser(null);
     }

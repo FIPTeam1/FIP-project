@@ -66,6 +66,68 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
+// On 401: try to refresh the token once, then retry. If refresh fails, clear session and redirect to login.
+let isRefreshing = false;
+let refreshQueue: Array<(token: string) => void> = [];
+
+api.interceptors.response.use(
+  (res) => res,
+  async (error) => {
+    const original = error.config;
+    if (error?.response?.status !== 401 || original._retry) {
+      return Promise.reject(error);
+    }
+
+    original._retry = true;
+
+    const storedRefresh = typeof window !== 'undefined' ? localStorage.getItem('fip_refresh_token') : null;
+    if (!storedRefresh) {
+      clearSessionAndRedirect();
+      return Promise.reject(error);
+    }
+
+    if (isRefreshing) {
+      // Queue this request until the refresh completes
+      return new Promise((resolve) => {
+        refreshQueue.push((newToken) => {
+          original.headers.Authorization = `Bearer ${newToken}`;
+          resolve(api(original));
+        });
+      });
+    }
+
+    isRefreshing = true;
+    try {
+      const res = await api.post<{ access_token: string; refresh_token: string; expires_at: string }>(
+        '/refresh',
+        { refresh_token: storedRefresh }
+      );
+      const { access_token, refresh_token: newRefresh, expires_at } = res.data;
+      localStorage.setItem('fip_token', access_token);
+      localStorage.setItem('fip_refresh_token', newRefresh);
+      localStorage.setItem('fip_expires_at', String(expires_at));
+      refreshQueue.forEach((cb) => cb(access_token));
+      refreshQueue = [];
+      original.headers.Authorization = `Bearer ${access_token}`;
+      return api(original);
+    } catch {
+      clearSessionAndRedirect();
+      return Promise.reject(error);
+    } finally {
+      isRefreshing = false;
+    }
+  }
+);
+
+function clearSessionAndRedirect() {
+  if (typeof window === 'undefined') return;
+  localStorage.removeItem('fip_token');
+  localStorage.removeItem('fip_refresh_token');
+  localStorage.removeItem('fip_expires_at');
+  localStorage.removeItem('fip_user');
+  window.location.href = '/login';
+}
+
 // ── Auth ──────────────────────────────────────────────────────────────────────
 export const authApi = {
   register: (data: {
@@ -87,6 +149,12 @@ export const authApi = {
       expires_at: string;
       token_type: string;
     }>('/login', data),
+
+  refresh: (refresh_token: string) =>
+    api.post<{ access_token: string; refresh_token: string; expires_at: string }>(
+      '/refresh',
+      { refresh_token }
+    ),
 
   logout: () => api.post<{ success: true }>('/logout'),
 };
