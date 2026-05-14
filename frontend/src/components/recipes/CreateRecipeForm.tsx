@@ -187,18 +187,15 @@ function IngredientSelector({ allIngredients, selected, onChange }: IngredientSe
 
 // ── Enum options ──────────────────────────────────────────────────────────────
 
+// label = what the user sees; value = what gets stored in DB (matches homepage filters)
 const CATEGORIES = [
-  'Main Course',
-  'Appetizer',
-  'Soup',
-  'Noodles',
-  'Dessert',
-  'Beverage',
-  'Vegetable',
-  'Rice',
-  'Breakfast',
-  'Snack',
-] as const;
+  { label: 'Appetizers', value: 'Appetizer'   },
+  { label: 'Entrees',    value: 'Main Course'  },
+  { label: 'Sides',      value: 'Noodles'      },
+  { label: 'Desserts',   value: 'Dessert'      },
+  { label: 'Beverages',  value: 'Beverage'     },
+  { label: 'Soups',      value: 'Soup'         },
+];
 
 const TYPES = [
   'Chicken',
@@ -424,7 +421,7 @@ export default function CreateRecipeForm() {
               >
                 <option value="">Select category…</option>
                 {CATEGORIES.map((c) => (
-                  <option key={c} value={c}>{c}</option>
+                  <option key={c.value} value={c.value}>{c.label}</option>
                 ))}
               </select>
             </div>
