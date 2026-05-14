@@ -1,11 +1,197 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { recipesApi, familyHistoryApi } from '@/lib/api';
+import { recipesApi, familyHistoryApi, ingredientsApi } from '@/lib/api';
+import type { Ingredient } from '@/lib/types';
+
+// ── Ingredient Selector ────────────────────────────────────────────────────────
+
+interface IngredientTag {
+  name: string;
+  isNew: boolean; // true = will be created on submit
+}
+
+interface IngredientSelectorProps {
+  allIngredients: Ingredient[];
+  selected: IngredientTag[];
+  onChange: (tags: IngredientTag[]) => void;
+}
+
+function IngredientSelector({ allIngredients, selected, onChange }: IngredientSelectorProps) {
+  const [query, setQuery] = useState('');
+  const [open, setOpen] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const trimmed = query.trim();
+
+  // Filter ingredients that match the query and aren't already selected
+  const selectedNames = new Set(selected.map((t) => t.name.toLowerCase()));
+  const matches = trimmed
+    ? allIngredients.filter(
+        (ing) =>
+          ing.name.toLowerCase().includes(trimmed.toLowerCase()) &&
+          !selectedNames.has(ing.name.toLowerCase())
+      )
+    : allIngredients.filter((ing) => !selectedNames.has(ing.name.toLowerCase())).slice(0, 8);
+
+  const exactMatch = allIngredients.some(
+    (ing) => ing.name.toLowerCase() === trimmed.toLowerCase()
+  );
+  const alreadySelected = selectedNames.has(trimmed.toLowerCase());
+  const showCreateOption = trimmed.length > 0 && !exactMatch && !alreadySelected;
+
+  function addTag(name: string, isNew: boolean) {
+    onChange([...selected, { name, isNew }]);
+    setQuery('');
+    setOpen(false);
+    inputRef.current?.focus();
+  }
+
+  function removeTag(index: number) {
+    onChange(selected.filter((_, i) => i !== index));
+  }
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target as Node) &&
+        inputRef.current !== e.target
+      ) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
+  }, []);
+
+  return (
+    <div className="flex flex-col gap-3">
+      {/* Selected tags */}
+      {selected.length > 0 && (
+        <div className="flex flex-wrap gap-2">
+          {selected.map((tag, i) => (
+            <span
+              key={i}
+              className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[13px] font-medium ${
+                tag.isNew
+                  ? 'bg-[#FFF8EC] text-[#FCAF3B] border border-[#FCAF3B]/30'
+                  : 'bg-[#F0F4FF] text-[#5555FF] border border-[#5555FF]/20'
+              }`}
+            >
+              {tag.isNew && (
+                <span className="text-[10px] font-bold uppercase tracking-wide opacity-60">new</span>
+              )}
+              {tag.name}
+              <button
+                type="button"
+                onClick={() => removeTag(i)}
+                className="ml-0.5 opacity-50 hover:opacity-100 transition-opacity text-[11px] leading-none"
+                aria-label={`Remove ${tag.name}`}
+              >
+                ✕
+              </button>
+            </span>
+          ))}
+        </div>
+      )}
+
+      {/* Search input + dropdown */}
+      <div className="relative">
+        <input
+          ref={inputRef}
+          type="text"
+          className="input input-bordered w-full"
+          placeholder="Search ingredients or type a new one…"
+          value={query}
+          onChange={(e) => {
+            setQuery(e.target.value);
+            setOpen(true);
+          }}
+          onFocus={() => setOpen(true)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              e.preventDefault();
+              if (matches.length > 0) {
+                addTag(matches[0].name, false);
+              } else if (showCreateOption) {
+                addTag(trimmed, true);
+              }
+            }
+            if (e.key === 'Escape') setOpen(false);
+          }}
+        />
+
+        {open && (matches.length > 0 || showCreateOption) && (
+          <div
+            ref={dropdownRef}
+            className="absolute z-50 left-0 right-0 top-full mt-1 bg-white border border-[#E5E7EB] rounded-xl shadow-lg overflow-hidden max-h-52 overflow-y-auto"
+          >
+            {matches.slice(0, 8).map((ing) => (
+              <button
+                key={ing.id}
+                type="button"
+                className="w-full flex items-center gap-3 px-4 py-2.5 text-left hover:bg-[#F9FAFB] transition-colors text-[13px]"
+                onMouseDown={(e) => {
+                  e.preventDefault();
+                  addTag(ing.name, false);
+                }}
+              >
+                {ing.image ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={ing.image}
+                    alt={ing.name}
+                    className="w-6 h-6 rounded-full object-cover shrink-0"
+                  />
+                ) : (
+                  <span className="w-6 h-6 rounded-full bg-[#F0F4FF] flex items-center justify-center shrink-0 text-[10px]">
+                    🥗
+                  </span>
+                )}
+                <span className="font-medium text-[#111827]">{ing.name}</span>
+              </button>
+            ))}
+
+            {showCreateOption && (
+              <button
+                type="button"
+                className="w-full flex items-center gap-3 px-4 py-2.5 text-left hover:bg-[#FFF8EC] transition-colors text-[13px] border-t border-[#F0F0F0]"
+                onMouseDown={(e) => {
+                  e.preventDefault();
+                  addTag(trimmed, true);
+                }}
+              >
+                <span className="w-6 h-6 rounded-full bg-[#FFF8EC] flex items-center justify-center shrink-0 text-[12px]">
+                  +
+                </span>
+                <span>
+                  Add new ingredient: <strong>&quot;{trimmed}&quot;</strong>
+                </span>
+              </button>
+            )}
+          </div>
+        )}
+      </div>
+
+      <p className="text-[12px] text-base-content/50">
+        Select from existing ingredients or type a new one and press Enter / click to add.{' '}
+        <span className="text-[#FCAF3B]">New</span> ingredients will be added to the glossary.
+      </p>
+    </div>
+  );
+}
+
+// ── Main Form ─────────────────────────────────────────────────────────────────
 
 export default function CreateRecipeForm() {
   const router = useRouter();
+
+  // All DB ingredients (fetched once on mount)
+  const [allIngredients, setAllIngredients] = useState<Ingredient[]>([]);
 
   // Basic info
   const [image, setImage] = useState('');
@@ -16,8 +202,8 @@ export default function CreateRecipeForm() {
   const [category, setCategory] = useState('');
   const [type, setType] = useState('');
 
-  // Ingredients: collected as rows then JSON.stringified
-  const [ingredientRows, setIngredientRows] = useState<string[]>(['', '', '']);
+  // Ingredients as tags
+  const [ingredientTags, setIngredientTags] = useState<IngredientTag[]>([]);
 
   // Family history
   const [familyPhoto, setFamilyPhoto] = useState('');
@@ -29,23 +215,10 @@ export default function CreateRecipeForm() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // ── Ingredient row helpers ─────────────────────────────────────────────────
-
-  function updateIngredientRow(index: number, value: string) {
-    setIngredientRows((prev) => {
-      const next = [...prev];
-      next[index] = value;
-      return next;
-    });
-  }
-
-  function addIngredientRow() {
-    setIngredientRows((prev) => [...prev, '']);
-  }
-
-  function removeIngredientRow(index: number) {
-    setIngredientRows((prev) => prev.filter((_, i) => i !== index));
-  }
+  // Fetch ingredients on mount
+  useEffect(() => {
+    ingredientsApi.list().then((res) => setAllIngredients(res.data)).catch(() => {});
+  }, []);
 
   // ── Submit ─────────────────────────────────────────────────────────────────
 
@@ -55,12 +228,25 @@ export default function CreateRecipeForm() {
     setSubmitting(true);
 
     try {
-      // Build ingredients JSON string
-      const filteredIngredients = ingredientRows.map((r) => r.trim()).filter(Boolean);
-      const ingredientsJson =
-        filteredIngredients.length > 0 ? JSON.stringify(filteredIngredients) : undefined;
+      // 1. Create any new ingredients that don't exist yet
+      const resolvedNames: string[] = [];
+      for (const tag of ingredientTags) {
+        if (tag.isNew) {
+          try {
+            await ingredientsApi.create({ name: tag.name });
+          } catch (err: unknown) {
+            // 409 = already exists (race condition) — that's fine, keep the name
+            const status = (err as { response?: { status?: number } })?.response?.status;
+            if (status !== 409) throw err;
+          }
+        }
+        resolvedNames.push(tag.name);
+      }
 
-      // Optionally create family history first
+      const ingredientsJson =
+        resolvedNames.length > 0 ? JSON.stringify(resolvedNames) : undefined;
+
+      // 2. Optionally create family history
       let familyHistoryId: number | undefined;
       const hasFamilyHistory = familyCreator || familyNameOrigin || familyStory || familyPhoto;
       if (hasFamilyHistory) {
@@ -73,6 +259,7 @@ export default function CreateRecipeForm() {
         familyHistoryId = fhRes.data.id;
       }
 
+      // 3. Create the recipe
       const res = await recipesApi.create({
         image: image || undefined,
         name,
@@ -204,37 +391,11 @@ export default function CreateRecipeForm() {
           <h2 className="text-[22px] font-semibold">Ingredients</h2>
           <div className="divider my-0" />
 
-          <p className="text-[14px] text-base-content/60">
-            Add each ingredient on its own line (e.g. &quot;2 cups rice&quot;, &quot;1 tbsp soy sauce&quot;).
-          </p>
-
-          {ingredientRows.map((row, i) => (
-            <div key={i} className="flex items-center gap-3">
-              <input
-                type="text"
-                className="input input-bordered flex-1"
-                placeholder={`Ingredient ${i + 1}`}
-                value={row}
-                onChange={(e) => updateIngredientRow(i, e.target.value)}
-              />
-              <button
-                type="button"
-                className="btn btn-ghost btn-sm text-error px-2"
-                onClick={() => removeIngredientRow(i)}
-                aria-label="Remove ingredient"
-              >
-                ✕
-              </button>
-            </div>
-          ))}
-
-          <button
-            type="button"
-            className="btn btn-outline btn-secondary self-start px-[30px] py-[10px] text-[14px] font-semibold"
-            onClick={addIngredientRow}
-          >
-            + Add Ingredient
-          </button>
+          <IngredientSelector
+            allIngredients={allIngredients}
+            selected={ingredientTags}
+            onChange={setIngredientTags}
+          />
         </section>
 
         {/* ── Section 3: Family History (optional) ── */}

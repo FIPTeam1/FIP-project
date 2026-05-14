@@ -32,9 +32,19 @@ router.get('/family-history/:id', async (req, res) => {
 router.post('/family-history', requireAuth, async (req, res) => {
   const { family_photo, creator, family_name_origin, story } = req.body || {};
 
+  // FamilyHistory table has no auto-increment sequence — compute next id manually.
+  const { data: maxRow } = await supabase
+    .from('FamilyHistory')
+    .select('id')
+    .order('id', { ascending: false })
+    .limit(1)
+    .maybeSingle();
+  const nextId = (maxRow?.id ?? 0) + 1;
+
   const { data, error } = await supabase
     .from('FamilyHistory')
     .insert({
+      id: nextId,
       family_photo: family_photo ?? null,
       creator: creator ?? req.user.id,
       family_name_origin: family_name_origin ?? null,

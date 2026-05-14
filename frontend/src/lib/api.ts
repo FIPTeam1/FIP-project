@@ -167,6 +167,9 @@ export const ingredientsApi = {
     api.get<Ingredient[]>('/ingredients', {
       params: items ? { items } : undefined,
     }),
+
+  create: (data: { name: string; image?: string; substitutes?: string }) =>
+    api.post<Ingredient>('/create-ingredient', data),
 };
 
 // ── Family History ────────────────────────────────────────────────────────────

@@ -107,9 +107,19 @@ router.post('/create-recipe', requireAuth, async (req, res) => {
     return res.status(400).json({ error: 'name is required' });
   }
 
+  // Recipe table has no auto-increment sequence — compute next id manually.
+  const { data: maxRow } = await supabase
+    .from('Recipe')
+    .select('recipe_id')
+    .order('recipe_id', { ascending: false })
+    .limit(1)
+    .maybeSingle();
+  const nextId = (maxRow?.recipe_id ?? 0) + 1;
+
   const { data, error } = await supabase
     .from('Recipe')
     .insert({
+      recipe_id: nextId,
       image: image ?? null,
       description: description ?? null,
       name,
