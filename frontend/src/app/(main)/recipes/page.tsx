@@ -10,12 +10,12 @@ import RecipeGrid from '@/components/recipes/RecipeGrid';
 
 // ── Category circles ──────────────────────────────────────────────────────────
 const CATEGORIES = [
-  { name: 'Appetizers',  image: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=200&auto=format&fit=crop', filter: 'Appetizer' },
-  { name: 'Entrees',     image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=200&auto=format&fit=crop', filter: 'Main Course' },
-  { name: 'Sides',       image: 'https://images.unsplash.com/photo-1569050467447-ce54b3bbc37d?w=200&auto=format&fit=crop', filter: 'Noodles' },
-  { name: 'Desserts',    image: 'https://images.unsplash.com/photo-1576618148400-f54bed99fcfd?w=200&auto=format&fit=crop', filter: 'Dessert' },
-  { name: 'Beverages',   image: 'https://images.unsplash.com/photo-1595981267035-7b04ca84a82d?w=200&auto=format&fit=crop', filter: 'Beverage' },
-  { name: 'Soups',       image: 'https://images.unsplash.com/photo-1512058564366-18510be2db19?w=200&auto=format&fit=crop', filter: 'Soup' },
+  { name: 'Appetizers', image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=200&auto=format&fit=crop', filter: 'Appetizer' },
+  { name: 'Entrees',    image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=200&auto=format&fit=crop', filter: 'Main Course' },
+  { name: 'Sides',      image: 'https://images.unsplash.com/photo-1569050467447-ce54b3bbc37d?w=200&auto=format&fit=crop', filter: 'Noodles' },
+  { name: 'Desserts',   image: 'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=200&auto=format&fit=crop', filter: 'Dessert' },
+  { name: 'Beverages',  image: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=200&auto=format&fit=crop', filter: 'Beverage' },
+  { name: 'Soups',      image: 'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=200&auto=format&fit=crop', filter: 'Soup' },
 ];
 
 // ── Search icon ───────────────────────────────────────────────────────────────

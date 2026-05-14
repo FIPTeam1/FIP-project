@@ -383,7 +383,7 @@ export default function CreateRecipeForm() {
             />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="form-control gap-1">
               <label className="label text-[16px] font-medium">Location</label>
               <input
@@ -395,18 +395,24 @@ export default function CreateRecipeForm() {
               />
             </div>
 
-            <div className="form-control gap-1">
+            <div className="form-control gap-1 md:col-span-2">
               <label className="label text-[16px] font-medium">Duration</label>
-              <select
-                className="select select-bordered w-full"
-                value={duration}
-                onChange={(e) => setDuration(e.target.value)}
-              >
-                <option value="">Select duration…</option>
+              <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
                 {DURATIONS.map((d) => (
-                  <option key={d} value={d}>{d}</option>
+                  <button
+                    key={d}
+                    type="button"
+                    onClick={() => setDuration(d === duration ? '' : d)}
+                    className={`shrink-0 px-3 py-1.5 rounded-full text-[12px] font-medium border transition-colors whitespace-nowrap ${
+                      duration === d
+                        ? 'bg-[#5555FF] text-white border-[#5555FF]'
+                        : 'bg-white text-[#6B7280] border-[#E5E7EB] hover:border-[#5555FF] hover:text-[#5555FF]'
+                    }`}
+                  >
+                    {d}
+                  </button>
                 ))}
-              </select>
+              </div>
             </div>
 
             <div className="form-control gap-1">
