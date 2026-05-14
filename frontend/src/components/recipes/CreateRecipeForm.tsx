@@ -185,6 +185,50 @@ function IngredientSelector({ allIngredients, selected, onChange }: IngredientSe
   );
 }
 
+// ── Enum options ──────────────────────────────────────────────────────────────
+
+const CATEGORIES = [
+  'Main Course',
+  'Appetizer',
+  'Soup',
+  'Noodles',
+  'Dessert',
+  'Beverage',
+  'Vegetable',
+  'Rice',
+  'Breakfast',
+  'Snack',
+] as const;
+
+const TYPES = [
+  'Chicken',
+  'Pork',
+  'Beef',
+  'Seafood',
+  'Vegetable',
+  'Noodles',
+  'Dessert',
+  'Beverage',
+  'Egg',
+  'Tofu',
+  'Rice',
+] as const;
+
+const DURATIONS = [
+  '10 minutes',
+  '15 minutes',
+  '20 minutes',
+  '30 minutes',
+  '45 minutes',
+  '1 hour',
+  '1.5 hours',
+  '2 hours',
+  '2.5 hours',
+  '3 hours',
+  '4 hours',
+  '5+ hours',
+] as const;
+
 // ── Main Form ─────────────────────────────────────────────────────────────────
 
 export default function CreateRecipeForm() {
@@ -353,35 +397,44 @@ export default function CreateRecipeForm() {
 
             <div className="form-control gap-1">
               <label className="label text-[16px] font-medium">Duration</label>
-              <input
-                type="text"
-                className="input input-bordered w-full"
-                placeholder="e.g. 45 minutes"
+              <select
+                className="select select-bordered w-full"
                 value={duration}
                 onChange={(e) => setDuration(e.target.value)}
-              />
+              >
+                <option value="">Select duration…</option>
+                {DURATIONS.map((d) => (
+                  <option key={d} value={d}>{d}</option>
+                ))}
+              </select>
             </div>
 
             <div className="form-control gap-1">
               <label className="label text-[16px] font-medium">Category</label>
-              <input
-                type="text"
-                className="input input-bordered w-full"
-                placeholder="e.g. Main Course"
+              <select
+                className="select select-bordered w-full"
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-              />
+              >
+                <option value="">Select category…</option>
+                {CATEGORIES.map((c) => (
+                  <option key={c} value={c}>{c}</option>
+                ))}
+              </select>
             </div>
 
             <div className="form-control gap-1">
               <label className="label text-[16px] font-medium">Type</label>
-              <input
-                type="text"
-                className="input input-bordered w-full"
-                placeholder="e.g. Meat, Seafood"
+              <select
+                className="select select-bordered w-full"
                 value={type}
                 onChange={(e) => setType(e.target.value)}
-              />
+              >
+                <option value="">Select type…</option>
+                {TYPES.map((t) => (
+                  <option key={t} value={t}>{t}</option>
+                ))}
+              </select>
             </div>
           </div>
         </section>
