@@ -33,7 +33,7 @@ function SectionHeader({ title }: { title: string }) {
   return (
     <div className="flex items-center justify-between mb-4 px-4 sm:px-8 md:px-[100px]">
       <h2 className="text-[18px] font-semibold text-[#111827]">{title}</h2>
-      <Link href="/recipes" className="text-[13px] font-medium text-[#5555FF] hover:underline flex items-center gap-0.5">
+      <Link href="/recipes" className="text-[13px] font-medium text-[#6A9CB5] hover:underline flex items-center gap-0.5">
         see all
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
           <polyline points="9 18 15 12 9 6" />
@@ -159,7 +159,7 @@ export default function RecipesPage() {
       <div className="flex flex-col items-center pt-8 pb-6 px-4 sm:px-8 md:px-[100px]">
         <div
           className="w-[60px] h-[60px] sm:w-[68px] sm:h-[68px] rounded-full overflow-hidden flex items-center justify-center mb-3 shrink-0"
-          style={{ backgroundColor: '#FCAF3B' }}
+          style={{ backgroundColor: '#6A9CB5' }}
         >
           {user?.profile?.profile_picture ? (
             // eslint-disable-next-line @next/next/no-img-element
@@ -191,7 +191,7 @@ export default function RecipesPage() {
               setActiveCategory(null);
             }}
             placeholder="Search for a recipe..."
-            className="w-full pl-11 pr-4 py-3 bg-white border border-[#F0F0F0] rounded-xl text-[14px] text-[#111827] placeholder-[#BDBDBD] focus:outline-none focus:border-[#FCAF3B] transition-colors shadow-sm"
+            className="w-full pl-11 pr-4 py-3 bg-white border border-[#F0F0F0] rounded-xl text-[14px] text-[#111827] placeholder-[#BDBDBD] focus:outline-none focus:border-[#6A9CB5] transition-colors shadow-sm"
           />
         </div>
       </div>
@@ -221,7 +221,7 @@ export default function RecipesPage() {
           <div className="flex items-center gap-3 mb-5">
             <button
               onClick={() => setActiveCategory(null)}
-              className="text-[13px] text-[#5555FF] hover:underline flex items-center gap-1"
+              className="text-[13px] text-[#6A9CB5] hover:underline flex items-center gap-1"
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
                 <polyline points="15 18 9 12 15 6" />
@@ -258,7 +258,7 @@ export default function RecipesPage() {
                   onClick={() => setActiveCategory(cat.filter)}
                   className="flex flex-col items-center gap-2 shrink-0 group"
                 >
-                  <div className="w-[72px] h-[72px] sm:w-[104px] sm:h-[104px] rounded-full overflow-hidden ring-2 ring-transparent group-hover:ring-[#FCAF3B] transition-all">
+                  <div className="w-[72px] h-[72px] sm:w-[104px] sm:h-[104px] rounded-full overflow-hidden ring-2 ring-transparent group-hover:ring-[#6A9CB5] transition-all">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={cat.image}
@@ -266,7 +266,7 @@ export default function RecipesPage() {
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                   </div>
-                  <span className="text-[11px] sm:text-[14px] font-semibold text-[#374151] group-hover:text-[#FCAF3B] transition-colors">
+                  <span className="text-[11px] sm:text-[14px] font-semibold text-[#374151] group-hover:text-[#6A9CB5] transition-colors">
                     {cat.name}
                   </span>
                 </button>
@@ -301,7 +301,7 @@ export default function RecipesPage() {
               <Link
                 href="/recipes/create"
                 className="px-6 py-2.5 rounded-lg text-[14px] font-semibold text-white"
-                style={{ backgroundColor: '#FCAF3B' }}
+                style={{ backgroundColor: '#6A9CB5' }}
               >
                 Create Recipe
               </Link>

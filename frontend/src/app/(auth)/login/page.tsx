@@ -38,7 +38,7 @@ export default function LoginPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-[#FBFBFB]">
-        <span className="loading loading-spinner loading-lg" style={{ color: '#5555FF' }} />
+        <span className="loading loading-spinner loading-lg" style={{ color: '#6A9CB5' }} />
       </div>
     );
   }
@@ -73,7 +73,7 @@ export default function LoginPage() {
               type="email"
               autoComplete="email"
               required
-              className="input input-bordered w-full bg-white border-[#F0F0F0] text-[14px] focus:border-[#5555FF] focus:outline-none"
+              className="input input-bordered w-full bg-white border-[#F0F0F0] text-[14px] focus:border-[#6A9CB5] focus:outline-none"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="you@example.com"
@@ -89,7 +89,7 @@ export default function LoginPage() {
               type="password"
               autoComplete="current-password"
               required
-              className="input input-bordered w-full bg-white border-[#F0F0F0] text-[14px] focus:border-[#5555FF] focus:outline-none"
+              className="input input-bordered w-full bg-white border-[#F0F0F0] text-[14px] focus:border-[#6A9CB5] focus:outline-none"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
@@ -100,7 +100,7 @@ export default function LoginPage() {
             type="submit"
             disabled={submitting}
             className="btn w-full text-[14px] font-semibold text-white mt-2 border-none"
-            style={{ backgroundColor: '#5555FF' }}
+            style={{ backgroundColor: '#6A9CB5' }}
           >
             {submitting ? (
               <span className="flex items-center justify-center gap-2">
@@ -115,7 +115,7 @@ export default function LoginPage() {
 
         <p className="text-center text-[14px] text-[#909090] mt-6">
           Don&apos;t have an account?{' '}
-          <Link href="/register" className="font-semibold hover:underline" style={{ color: '#5555FF' }}>
+          <Link href="/register" className="font-semibold hover:underline" style={{ color: '#6A9CB5' }}>
             Sign Up
           </Link>
         </p>

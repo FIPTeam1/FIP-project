@@ -34,7 +34,7 @@ function StarRatingInput({
           type="button"
           onClick={() => onChange(star)}
           className={`text-2xl transition-colors ${
-            star <= value ? 'text-[#FCAF3B]' : 'text-gray-300'
+            star <= value ? 'text-[#6A9CB5]' : 'text-gray-300'
           }`}
           aria-label={`${star} star`}
         >
@@ -103,7 +103,7 @@ export default function ReviewSection({ recipeId }: ReviewSectionProps) {
           <p className="text-[14px] font-semibold text-gray-700">Leave a Review</p>
           <StarRatingInput value={rating} onChange={setRating} />
           <textarea
-            className="w-full rounded-xl border border-base-300 bg-base-100 px-4 py-3 text-[14px] text-base-content placeholder:text-base-content/40 resize-none focus:outline-none focus:ring-2 focus:ring-[#FCAF3B] transition"
+            className="w-full rounded-xl border border-base-300 bg-base-100 px-4 py-3 text-[14px] text-base-content placeholder:text-base-content/40 resize-none focus:outline-none focus:ring-2 focus:ring-[#6A9CB5] transition"
             rows={3}
             placeholder="Share your thoughts about this recipe..."
             value={reviewText}
@@ -116,7 +116,7 @@ export default function ReviewSection({ recipeId }: ReviewSectionProps) {
               onClick={handlePost}
               disabled={posting}
               className="px-[30px] py-[10px] rounded-lg text-[14px] font-semibold text-white transition disabled:opacity-50"
-              style={{ backgroundColor: '#5555FF' }}
+              style={{ backgroundColor: '#6A9CB5' }}
             >
               {posting ? 'Posting…' : 'Post Review'}
             </button>
@@ -155,7 +155,7 @@ export default function ReviewSection({ recipeId }: ReviewSectionProps) {
                 {/* Avatar */}
                 <div
                   className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold text-white flex-shrink-0"
-                  style={{ backgroundColor: '#5555FF' }}
+                  style={{ backgroundColor: '#6A9CB5' }}
                 >
                   {initials}
                 </div>
@@ -165,7 +165,7 @@ export default function ReviewSection({ recipeId }: ReviewSectionProps) {
                     <span className="text-[16px] font-medium text-base-content">
                       {displayName}
                     </span>
-                    <span className="text-[#FCAF3B] text-sm">
+                    <span className="text-[#6A9CB5] text-sm">
                       {'★'.repeat(review.rating)}
                       <span className="text-gray-300">{'★'.repeat(5 - review.rating)}</span>
                     </span>

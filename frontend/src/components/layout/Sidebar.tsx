@@ -98,7 +98,7 @@ export default function Sidebar() {
             key={href}
             href={href}
             className={`flex flex-col items-center justify-center gap-0.5 flex-1 transition-colors ${
-              active ? 'text-[#FCAF3B]' : 'text-[#909090]'
+              active ? 'text-[#6A9CB5]' : 'text-[#909090]'
             }`}
           >
             <span className="shrink-0">{icon}</span>
@@ -138,7 +138,7 @@ export default function Sidebar() {
               <Link
                 href={`/profile/${user.id}`}
                 className="w-8 h-8 rounded-full flex items-center justify-center overflow-hidden flex-shrink-0"
-                style={{ backgroundColor: '#FCAF3B' }}
+                style={{ backgroundColor: '#6A9CB5' }}
                 title={displayName}
               >
                 {user.profile.profile_picture ? (
@@ -201,7 +201,7 @@ export default function Sidebar() {
                 href={href}
                 className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-[13px] font-medium transition-colors ${
                   active
-                    ? 'bg-[#FFF8EC] text-[#FCAF3B]'
+                    ? 'bg-[#E0EEF8] text-[#6A9CB5]'
                     : 'text-[#6B7280] hover:bg-[#F9FAFB] hover:text-[#111827]'
                 }`}
               >
@@ -218,7 +218,7 @@ export default function Sidebar() {
             <div className="flex items-center gap-2.5 px-3 py-2">
               <div
                 className="w-7 h-7 rounded-full flex items-center justify-center shrink-0 overflow-hidden"
-                style={{ backgroundColor: '#FCAF3B' }}
+                style={{ backgroundColor: '#6A9CB5' }}
               >
                 {user.profile.profile_picture ? (
                   // eslint-disable-next-line @next/next/no-img-element

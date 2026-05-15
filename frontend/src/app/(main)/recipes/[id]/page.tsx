@@ -108,7 +108,7 @@ export default function RecipeDetailPage() {
       <div className="flex flex-col items-center justify-center min-h-screen gap-4 bg-[#FBFBFB]">
         <span className="text-6xl">🍽️</span>
         <h1 className="text-[22px] font-semibold text-[#111827]">Recipe not found</h1>
-        <Link href="/recipes" className="text-[13px] font-semibold text-[#5555FF] uppercase tracking-wider hover:underline">
+        <Link href="/recipes" className="text-[13px] font-semibold text-[#6A9CB5] uppercase tracking-wider hover:underline">
           ← Back to Recipes
         </Link>
       </div>
@@ -127,7 +127,7 @@ export default function RecipeDetailPage() {
         {/* ── Breadcrumb ── */}
         <Link
           href="/recipes"
-          className="inline-flex items-center gap-1.5 text-[12px] font-semibold uppercase tracking-widest text-[#5555FF] hover:opacity-70 transition-opacity mb-6"
+          className="inline-flex items-center gap-1.5 text-[12px] font-semibold uppercase tracking-widest text-[#6A9CB5] hover:opacity-70 transition-opacity mb-6"
         >
           <BackArrow />
           Back to Recipes
@@ -144,7 +144,7 @@ export default function RecipeDetailPage() {
             <span className="text-[13px] text-[#909090]">Recipe by</span>
             <div
               className="w-7 h-7 rounded-full flex items-center justify-center text-[11px] font-bold text-white shrink-0"
-              style={{ backgroundColor: '#FCAF3B' }}
+              style={{ backgroundColor: '#6A9CB5' }}
             >
               {initials}
             </div>
@@ -157,8 +157,8 @@ export default function RecipeDetailPage() {
               disabled={savingInProgress}
               className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-[13px] font-semibold transition-all border ${
                 isSaved
-                  ? 'bg-[#5555FF] text-white border-[#5555FF]'
-                  : 'bg-white text-[#5555FF] border-[#5555FF] hover:bg-[#5555FF] hover:text-white'
+                  ? 'bg-[#6A9CB5] text-white border-[#6A9CB5]'
+                  : 'bg-white text-[#6A9CB5] border-[#6A9CB5] hover:bg-[#6A9CB5] hover:text-white'
               } disabled:opacity-50`}
             >
               <SaveIcon />
@@ -178,7 +178,7 @@ export default function RecipeDetailPage() {
                 onClick={() => setActiveTab(tab)}
                 className={`px-3 sm:px-6 py-3 text-[12px] sm:text-[13px] font-semibold transition-colors border-b-2 -mb-px ${
                   isActive
-                    ? 'border-[#FCAF3B] text-[#111827]'
+                    ? 'border-[#6A9CB5] text-[#111827]'
                     : 'border-transparent text-[#909090] hover:text-[#111827]'
                 }`}
               >

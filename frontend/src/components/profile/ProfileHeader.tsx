@@ -42,7 +42,7 @@ export default function ProfileHeader({ profile, isOwnProfile }: ProfileHeaderPr
         ) : (
           <div
             className="w-16 h-16 rounded-full flex items-center justify-center text-white font-semibold text-xl select-none"
-            style={{ backgroundColor: '#FCAF3B' }}
+            style={{ backgroundColor: '#6A9CB5' }}
           >
             {initials}
           </div>
@@ -59,7 +59,7 @@ export default function ProfileHeader({ profile, isOwnProfile }: ProfileHeaderPr
 
         {profile.rating != null && (
           <p className="text-[14px] text-gray-400 flex items-center gap-1 mt-0.5">
-            <span className="text-[#FCAF3B]">★</span>
+            <span className="text-[#6A9CB5]">★</span>
             <span className="font-medium">{profile.rating.toFixed(1)}</span>
           </p>
         )}

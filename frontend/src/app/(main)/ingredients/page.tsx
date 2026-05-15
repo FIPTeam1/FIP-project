@@ -68,7 +68,7 @@ export default function IngredientsPage() {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search ingredients..."
-          className="w-full pl-11 pr-4 py-2.5 bg-white border border-[#F0F0F0] rounded-lg text-[14px] text-[#111827] placeholder-[#909090] focus:outline-none focus:border-[#5555FF] transition-colors"
+          className="w-full pl-11 pr-4 py-2.5 bg-white border border-[#F0F0F0] rounded-lg text-[14px] text-[#111827] placeholder-[#909090] focus:outline-none focus:border-[#6A9CB5] transition-colors"
         />
       </div>
 

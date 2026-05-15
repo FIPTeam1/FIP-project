@@ -66,7 +66,7 @@ export default function IngredientCard({ item }: Props) {
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
-              fill="#FCAF3B"
+              fill="#6A9CB5"
               className="w-5 h-5"
             >
               <path
@@ -81,7 +81,7 @@ export default function IngredientCard({ item }: Props) {
               fill="none"
               viewBox="0 0 24 24"
               strokeWidth={1.5}
-              stroke="#FCAF3B"
+              stroke="#6A9CB5"
               className="w-5 h-5"
             >
               <path
@@ -115,7 +115,7 @@ export default function IngredientCard({ item }: Props) {
             <ul className="flex flex-col gap-2">
               {substitutes.map((sub, i) => (
                 <li key={i} className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-[#FCAF3B] flex-shrink-0" />
+                  <span className="w-2 h-2 rounded-full bg-[#6A9CB5] flex-shrink-0" />
                   <span className="text-[14px] text-base-content">{sub}</span>
                 </li>
               ))}

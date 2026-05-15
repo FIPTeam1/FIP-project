@@ -1,9 +1,12 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
 import { recipesApi, familyHistoryApi, ingredientsApi } from '@/lib/api';
 import type { Ingredient } from '@/lib/types';
+
+const RichTextEditor = dynamic(() => import('@/components/ui/RichTextEditor'), { ssr: false });
 
 // ── Ingredient Selector ────────────────────────────────────────────────────────
 
@@ -370,13 +373,17 @@ export default function CreateRecipeForm() {
           </div>
 
           <div className="form-control gap-1">
-            <label className="label text-[16px] font-medium">Description</label>
-            <textarea
-              className="textarea textarea-bordered w-full"
-              rows={4}
-              placeholder="Describe your recipe..."
+            <label className="label text-[16px] font-medium">
+              Instructions / How to Cook
+            </label>
+            <p className="text-[12px] text-base-content/50 -mt-1 mb-1">
+              Use the toolbar to format numbered steps, headings, and tips.
+            </p>
+            <RichTextEditor
               value={description}
-              onChange={(e) => setDescription(e.target.value)}
+              onChange={setDescription}
+              placeholder="Write step-by-step instructions, tips, and notes..."
+              minHeight={280}
             />
           </div>
 

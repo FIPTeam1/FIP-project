@@ -83,13 +83,6 @@ export default function RecipeDetail({ recipe }: RecipeDetailProps) {
         )}
       </div>
 
-      {/* ── Description ── */}
-      {recipe.description && (
-        <p className="text-[14px] text-[#4B5563] leading-relaxed mb-8">
-          {recipe.description}
-        </p>
-      )}
-
       {/* ── Two-column layout ── */}
       <div className="flex flex-col md:flex-row gap-6 md:gap-8 items-start">
 
@@ -113,7 +106,7 @@ export default function RecipeDetail({ recipe }: RecipeDetailProps) {
           </div>
         )}
 
-        {/* Right column: Instructions */}
+        {/* Right column: How to Cook */}
         <div className="flex-1 min-w-0 space-y-4">
           {recipe.type && recipe.type !== recipe.category && (
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#F9FAFB] rounded-lg text-[12px] text-[#6B7280]">
@@ -123,12 +116,19 @@ export default function RecipeDetail({ recipe }: RecipeDetailProps) {
           )}
 
           <div className="bg-[#FFFBF3] border border-[#FDE68A]/60 rounded-2xl p-6">
-            <p className="text-[11px] font-bold text-[#B45309] uppercase tracking-widest mb-3">
+            <p className="text-[11px] font-bold text-[#B45309] uppercase tracking-widest mb-4">
               How to Cook
             </p>
-            <p className="text-[14px] text-[#374151] leading-relaxed whitespace-pre-wrap">
-              {recipe.description || 'Prepare the listed ingredients using traditional Filipino cooking methods. Combine with care, balancing the flavors as you go.'}
-            </p>
+            {recipe.description ? (
+              <div
+                className="recipe-prose"
+                dangerouslySetInnerHTML={{ __html: recipe.description }}
+              />
+            ) : (
+              <p className="text-[14px] text-[#374151] leading-relaxed italic opacity-60">
+                No instructions provided yet.
+              </p>
+            )}
           </div>
         </div>
 

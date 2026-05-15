@@ -45,7 +45,7 @@ export default function RegisterPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-[#FBFBFB]">
-        <span className="loading loading-spinner loading-lg" style={{ color: '#5555FF' }} />
+        <span className="loading loading-spinner loading-lg" style={{ color: '#6A9CB5' }} />
       </div>
     );
   }
@@ -82,7 +82,7 @@ export default function RegisterPage() {
                 type="text"
                 autoComplete="given-name"
                 required
-                className="input input-bordered w-full bg-white border-[#F0F0F0] text-[14px] focus:border-[#5555FF] focus:outline-none"
+                className="input input-bordered w-full bg-white border-[#F0F0F0] text-[14px] focus:border-[#6A9CB5] focus:outline-none"
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
                 placeholder="Juan"
@@ -96,7 +96,7 @@ export default function RegisterPage() {
                 id="lastName"
                 type="text"
                 autoComplete="family-name"
-                className="input input-bordered w-full bg-white border-[#F0F0F0] text-[14px] focus:border-[#5555FF] focus:outline-none"
+                className="input input-bordered w-full bg-white border-[#F0F0F0] text-[14px] focus:border-[#6A9CB5] focus:outline-none"
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
                 placeholder="dela Cruz"
@@ -113,7 +113,7 @@ export default function RegisterPage() {
               type="email"
               autoComplete="email"
               required
-              className="input input-bordered w-full bg-white border-[#F0F0F0] text-[14px] focus:border-[#5555FF] focus:outline-none"
+              className="input input-bordered w-full bg-white border-[#F0F0F0] text-[14px] focus:border-[#6A9CB5] focus:outline-none"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="you@example.com"
@@ -129,7 +129,7 @@ export default function RegisterPage() {
               type="password"
               autoComplete="new-password"
               required
-              className="input input-bordered w-full bg-white border-[#F0F0F0] text-[14px] focus:border-[#5555FF] focus:outline-none"
+              className="input input-bordered w-full bg-white border-[#F0F0F0] text-[14px] focus:border-[#6A9CB5] focus:outline-none"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
@@ -140,7 +140,7 @@ export default function RegisterPage() {
             type="submit"
             disabled={submitting}
             className="btn w-full text-[14px] font-semibold text-white mt-2 border-none"
-            style={{ backgroundColor: '#5555FF' }}
+            style={{ backgroundColor: '#6A9CB5' }}
           >
             {submitting ? (
               <span className="flex items-center justify-center gap-2">
@@ -155,7 +155,7 @@ export default function RegisterPage() {
 
         <p className="text-center text-[14px] text-[#909090] mt-6">
           Already have an account?{' '}
-          <Link href="/login" className="font-semibold hover:underline" style={{ color: '#5555FF' }}>
+          <Link href="/login" className="font-semibold hover:underline" style={{ color: '#6A9CB5' }}>
             Sign In
           </Link>
         </p>

@@ -54,7 +54,30 @@ body {
 .scrollbar-hide::-webkit-scrollbar { display: none; }
 .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
 
-/* Typography scale matching Figma */
+/* ── Rich text / prose rendering ─────────────────────────────────────────── */
+.recipe-prose h2 { font-size: 17px; font-weight: 700; color: #111827; margin: 1.4em 0 0.5em; }
+.recipe-prose h3 { font-size: 15px; font-weight: 600; color: #374151; margin: 1.1em 0 0.35em; }
+.recipe-prose p  { font-size: 14px; color: #374151; line-height: 1.75; margin: 0.4em 0; }
+.recipe-prose ol { list-style: decimal; padding-left: 1.5em; margin: 0.6em 0; }
+.recipe-prose ul { list-style: disc;    padding-left: 1.5em; margin: 0.6em 0; }
+.recipe-prose li { font-size: 14px; color: #374151; line-height: 1.75; margin: 0.35em 0; }
+.recipe-prose strong { font-weight: 700; color: #111827; }
+.recipe-prose em     { font-style: italic; }
+.recipe-prose > *:first-child { margin-top: 0; }
+.recipe-prose > *:last-child  { margin-bottom: 0; }
+
+/* WYSIWYG editor placeholder */
+.tiptap p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  color: #9CA3AF;
+  pointer-events: none;
+  float: left;
+  height: 0;
+}
+/* Give the TipTap editable div a decent cursor */
+.tiptap { cursor: text; }
+
+/* ── Typography scale matching Figma ────────────────────────────────────── */
 .text-title   { font-size: 32px; font-weight: 700; }
 .text-h1      { font-size: 22px; font-weight: 600; }
 .text-h2      { font-size: 20px; font-weight: 500; }

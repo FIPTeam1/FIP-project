@@ -69,11 +69,11 @@ export default function ProfileTabs({ userId, isOwnProfile }: ProfileTabsProps) 
         <button
           className={
             activeTab === 'recipes'
-              ? `${TAB_STYLE_ACTIVE} border-b-[#FCAF3B]`
+              ? `${TAB_STYLE_ACTIVE} border-b-[#6A9CB5]`
               : TAB_STYLE_INACTIVE
           }
           onClick={() => setActiveTab('recipes')}
-          style={activeTab === 'recipes' ? { borderBottomColor: '#FCAF3B' } : undefined}
+          style={activeTab === 'recipes' ? { borderBottomColor: '#6A9CB5' } : undefined}
         >
           My Recipes
         </button>
@@ -83,11 +83,11 @@ export default function ProfileTabs({ userId, isOwnProfile }: ProfileTabsProps) 
           <button
             className={
               activeTab === 'saved'
-                ? `${TAB_STYLE_ACTIVE} border-b-[#FCAF3B]`
+                ? `${TAB_STYLE_ACTIVE} border-b-[#6A9CB5]`
                 : TAB_STYLE_INACTIVE
             }
             onClick={() => setActiveTab('saved')}
-            style={activeTab === 'saved' ? { borderBottomColor: '#FCAF3B' } : undefined}
+            style={activeTab === 'saved' ? { borderBottomColor: '#6A9CB5' } : undefined}
           >
             Saved Recipes
           </button>

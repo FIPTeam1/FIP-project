@@ -56,26 +56,26 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
 
         {/* Content */}
         <div className="px-3 py-3 flex flex-col gap-2 flex-1">
-          <h3 className="text-[13px] font-semibold text-[#111827] line-clamp-2 leading-snug group-hover:text-[#FCAF3B] transition-colors">
+          <h3 className="text-[13px] font-semibold text-[#111827] line-clamp-2 leading-snug group-hover:text-[#6A9CB5] transition-colors">
             {recipe.name}
           </h3>
 
           {/* Badges */}
           <div className="flex flex-wrap gap-1.5 mt-auto">
             {recipe.location && (
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium bg-[#EBF5FF] text-[#2D7DD2]">
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium bg-[#D8EEF8] text-[#4A7A90]">
                 <PinIcon />
                 {recipe.location.split(',')[0]}
               </span>
             )}
             {recipe.duration && (
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium bg-[#FFF8EC] text-[#B97A1A]">
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium bg-[#FEF6D0] text-[#9A7200]">
                 <ClockIcon />
                 {recipe.duration}
               </span>
             )}
             {recipe.category && (
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium bg-[#FFF0F6] text-[#C2185B]">
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium bg-[#FCE8E8] text-[#B85050]">
                 <UsersIcon />
                 {recipe.category}
               </span>
